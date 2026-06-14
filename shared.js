@@ -3,6 +3,10 @@
 // =============================================
 
 const STORAGE_KEY  = "bolao_ias_2026";
+const JSONBIN_ID   = "6a2eca44da38895dfebf3453";
+const JSONBIN_READ = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID + "/latest";
+const JSONBIN_WRITE= "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
+const JSONBIN_KEY_STORAGE = "bolao_jsonbin_key";
 const ESPN_BASE    = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
 const WC_START     = "20260611";
 const WC_END       = "20260720";
@@ -30,6 +34,36 @@ function loadState() {
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  saveToCloud().catch(() => {});
+}
+
+// ---- Cloud sync (JSONBin) ----
+async function saveToCloud() {
+  const key = localStorage.getItem(JSONBIN_KEY_STORAGE);
+  if (!key) return;
+  await fetch(JSONBIN_WRITE, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "X-Master-Key": key },
+    body: JSON.stringify(state)
+  });
+}
+
+async function loadFromCloud() {
+  try {
+    const headers = {};
+    const key = localStorage.getItem(JSONBIN_KEY_STORAGE);
+    if (key) headers["X-Master-Key"] = key;
+    const res  = await fetch(JSONBIN_READ, { headers });
+    if (!res.ok) return false;
+    const data = await res.json();
+    const cloud = data.record;
+    if (cloud && (cloud.matches?.length || cloud.knockoutMatches?.length)) {
+      state = { ...state, ...cloud };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      return true;
+    }
+  } catch {}
+  return false;
 }
 
 // ---- Scoring ----

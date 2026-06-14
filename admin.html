@@ -199,6 +199,22 @@
   </div>
 
   <div class="settings-section">
+    <h3>☁️ Sincronização Cloud (JSONBin)</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
+      A chave fica salva só neste navegador. Necessária para publicar os dados em todos os dispositivos.
+    </p>
+    <div class="form-group">
+      <label class="form-label">Master Key do JSONBin</label>
+      <input type="password" class="form-input" id="jsonbin-key-input" placeholder="$2a$10$...">
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="saveJsonBinKey()">💾 Salvar Chave</button>
+      <button class="btn-secondary" onclick="syncToCloud()">☁️ Publicar Dados Agora</button>
+    </div>
+    <p id="jsonbin-status" style="font-size:12px;color:var(--text-muted);margin-top:10px"></p>
+  </div>
+
+  <div class="settings-section">
     <h3>🔐 Alterar Senha</h3>
     <div class="form-group">
       <label class="form-label">Senha atual</label>
@@ -327,6 +343,34 @@ onSyncError = (msg) => {
 onResultsUpdated = () => {
   if (document.getElementById("view-results").classList.contains("active")) renderResults();
 };
+
+// ---- JSONBin ----
+function saveJsonBinKey() {
+  const key = document.getElementById("jsonbin-key-input").value.trim();
+  if (!key) { toast("Cole a chave antes de salvar", "error"); return; }
+  localStorage.setItem(JSONBIN_KEY_STORAGE, key);
+  document.getElementById("jsonbin-key-input").value = "";
+  toast("Chave salva! Os dados serão publicados automaticamente a cada salvamento.");
+}
+
+async function syncToCloud() {
+  const status = document.getElementById("jsonbin-status");
+  status.textContent = "Publicando...";
+  try {
+    await saveToCloud();
+    status.textContent = "✓ Dados publicados com sucesso às " + new Date().toLocaleTimeString("pt-BR");
+    toast("Dados publicados na cloud! ☁️");
+  } catch (e) {
+    status.textContent = "✗ Erro ao publicar. Verifique a chave.";
+    toast("Erro ao publicar na cloud", "error");
+  }
+}
+
+function initJsonBinUI() {
+  const hasKey = !!localStorage.getItem(JSONBIN_KEY_STORAGE);
+  const status = document.getElementById("jsonbin-status");
+  if (status) status.textContent = hasKey ? "✓ Chave configurada. Dados sincronizados automaticamente." : "⚠️ Chave não configurada.";
+}
 
 // ---- Init: verificar sessão ----
 document.addEventListener("DOMContentLoaded", () => {

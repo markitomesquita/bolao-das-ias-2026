@@ -565,8 +565,10 @@ onSyncError = (msg) => {
 onResultsUpdated = () => render();
 
 // ---- Init ----
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   loadState();
+  render();
+  await loadFromCloud();
   render();
   startAutoSync();
 });

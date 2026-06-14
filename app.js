@@ -332,7 +332,7 @@ function showView(view) {
   document.getElementById(`view-${view}`)?.classList.add("active");
   document.querySelector(`[data-view="${view}"]`)?.classList.add("active");
   if (view === "results")  renderResults();
-  if (view === "settings") renderSettings();
+  if (view === "settings") { renderSettings(); if (typeof initJsonBinUI === "function") initJsonBinUI(); }
   if (view === "import")   renderImport();
 }
 
