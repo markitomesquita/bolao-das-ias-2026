@@ -35,13 +35,10 @@ function calcPoints(prediction, result, multiplier) {
   const ph = parseInt(prediction.home), pa = parseInt(prediction.away);
   const rh = parseInt(result.home), ra = parseInt(result.away);
   if (isNaN(ph) || isNaN(pa) || isNaN(rh) || isNaN(ra)) return null;
-
   if (ph === rh && pa === ra) return 3 * multiplier;
-
   const predOutcome = ph > pa ? "H" : ph < pa ? "A" : "D";
   const realOutcome = rh > ra ? "H" : rh < ra ? "A" : "D";
   if (predOutcome === realOutcome) return 1 * multiplier;
-
   return 0;
 }
 
@@ -52,15 +49,14 @@ function getMultiplier(phase) {
 function calcAllScores() {
   const scores = {};
   for (const ai of AI_NAMES) {
-    scores[ai] = { total: 0, exact: 0, correct: 0, wrong: 0, byPhase: {} };
+    scores[ai] = { total: 0, exact: 0, correct: 0, wrong: 0, pending: 0, byPhase: {} };
     for (const p of PHASES) scores[ai].byPhase[p.id] = 0;
   }
-
   const allMatches = [...state.matches, ...state.knockoutMatches];
   for (const match of allMatches) {
-    if (!match.result) continue;
     const mult = getMultiplier(match.phase);
     for (const ai of AI_NAMES) {
+      if (!match.result) { if (match.predictions[ai]) scores[ai].pending++; continue; }
       const pts = calcPoints(match.predictions[ai], match.result, mult);
       if (pts === null) continue;
       scores[ai].total += pts;
@@ -74,19 +70,24 @@ function calcAllScores() {
   return scores;
 }
 
+function countImported(ai) {
+  const allMatches = [...state.matches, ...state.knockoutMatches];
+  return allMatches.filter(m => m.predictions[ai] !== null).length;
+}
+
 // ---- Ranking View ----
 function renderRanking() {
   const scores = calcAllScores();
   const sorted = AI_NAMES.slice().sort((a, b) => scores[b].total - scores[a].total);
-  const maxScore = Math.max(...sorted.map(ai => scores[ai].total), 1);
 
-  // Cards
   const grid = document.getElementById("ranking-grid");
   grid.innerHTML = "";
 
   sorted.forEach((ai, idx) => {
     const s = scores[ai];
     const rankClass = ["rank-1", "rank-2", "rank-3", "rank-4"][idx];
+    const imported = countImported(ai);
+    const total = state.matches.length + state.knockoutMatches.length;
 
     const phaseRows = PHASES.map(p => {
       const pts = s.byPhase[p.id] || 0;
@@ -94,17 +95,21 @@ function renderRanking() {
       const pct = Math.round((pts / maxPhase) * 100);
       return `<div class="progress-row">
         <span class="progress-lbl">${p.label.split(" ")[0]}</span>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" style="width:${pct}%"></div>
-        </div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
         <span class="progress-pts">${pts}</span>
       </div>`;
     }).join("");
 
+    const importedBadge = imported > 0
+      ? `<span class="imported-badge">✓ ${imported}/${total} palpites</span>`
+      : `<span class="imported-badge missing">⚠ Sem palpites</span>`;
+
     grid.innerHTML += `
       <div class="ai-card" data-ai="${ai}">
         <div class="card-rank ${rankClass}">${idx + 1}</div>
+        <div class="card-logo">${AI_LOGOS[ai]}</div>
         <div class="card-name">${AI_LABELS[ai]}</div>
+        ${importedBadge}
         <div class="card-score">${s.total}</div>
         <div class="card-label">pontos totais</div>
         <div class="card-stats">
@@ -116,106 +121,239 @@ function renderRanking() {
       </div>`;
   });
 
-  // Table
   const tbody = document.getElementById("ranking-tbody");
   tbody.innerHTML = "";
   sorted.forEach((ai, idx) => {
     const s = scores[ai];
     const medals = ["🥇", "🥈", "🥉", "4️⃣"];
-    const total = state.matches.length + state.knockoutMatches.length;
-    const played = [...state.matches, ...state.knockoutMatches].filter(m => m.result && m.predictions[ai]).length;
+    const allMatches = [...state.matches, ...state.knockoutMatches];
+    const played = allMatches.filter(m => m.result && m.predictions[ai]).length;
+    const total = allMatches.length;
     tbody.innerHTML += `<tr>
       <td>${medals[idx]}</td>
-      <td><span class="ai-dot dot-${ai}"></span>${AI_LABELS[ai]}</td>
+      <td><span class="ai-logo-sm">${AI_LOGOS[ai]}</span>${AI_LABELS[ai]}</td>
       <td style="font-weight:700">${s.total}</td>
       <td style="color:#22C55E">${s.exact * 3}</td>
-      <td style="color:#F59E0B">${s.correct * 1}</td>
+      <td style="color:#F59E0B">${s.correct}</td>
       <td>${s.exact}</td>
       <td>${s.correct}</td>
-      <td>${s.wrong}</td>
+      <td style="color:#EF4444">${s.wrong}</td>
       <td style="color:var(--text-muted)">${played}/${total}</td>
     </tr>`;
   });
 }
 
-// ---- Matches View ----
+// ---- Import View ----
+function renderImport() {
+  // Already static HTML, just update status badges
+  for (const ai of AI_NAMES) {
+    const count = countImported(ai);
+    const total = state.matches.length + state.knockoutMatches.length;
+    const el = document.getElementById(`import-status-${ai}`);
+    if (el) {
+      el.textContent = count > 0 ? `✓ ${count} palpites importados` : "Aguardando documento...";
+      el.className = `import-status ${count > 0 ? "ok" : ""}`;
+    }
+  }
+}
+
+function generatePrompt() {
+  const allMatches = [...state.matches, ...state.knockoutMatches];
+  const groupMatches = allMatches.filter(m => m.phase === "groups");
+
+  let matchList = "";
+  const groups = [...new Set(groupMatches.map(m => m.group))].sort();
+  for (const g of groups) {
+    matchList += `\nGRUPO ${g}:\n`;
+    groupMatches.filter(m => m.group === g).forEach((m, i) => {
+      matchList += `  Jogo ${i + 1}: ${m.home} x ${m.away}\n`;
+    });
+  }
+
+  return `Você é um analista esportivo fazendo palpites para um bolão da Copa do Mundo FIFA 2026.
+
+REGRA IMPORTANTE: Use apenas seu conhecimento até 10 de junho de 2026 (dia anterior ao início da Copa). Não considere nenhum resultado real de jogo que já tenha acontecido durante o torneio. Seus palpites devem ser baseados APENAS em análise prévia dos times.
+
+Sua tarefa: prever o placar de TODOS os jogos da fase de grupos listados abaixo.
+
+FORMATO DE RESPOSTA OBRIGATÓRIO:
+Para cada jogo, responda EXATAMENTE neste formato (um por linha):
+[Time Mandante] [gols] x [gols] [Time Visitante]
+
+Exemplo:
+Brasil 2 x 0 Argentina
+França 1 x 1 Alemanha
+
+JOGOS PARA PREENCHER:
+${matchList}
+INSTRUÇÕES ADICIONAIS:
+- Preencha TODOS os ${groupMatches.length} jogos, sem pular nenhum
+- Use os nomes dos times EXATAMENTE como aparecem na lista acima
+- Apenas números inteiros nos placares (sem decimais)
+- Não adicione comentários ou justificativas junto aos palpites — somente os placares no formato pedido
+- Ao final, adicione uma linha: "FIM DOS PALPITES"`;
+}
+
+function showPrompt() {
+  const prompt = generatePrompt();
+  document.getElementById("prompt-output").value = prompt;
+  document.getElementById("prompt-box").style.display = "block";
+  document.getElementById("prompt-output").select();
+}
+
+function copyPrompt() {
+  const ta = document.getElementById("prompt-output");
+  ta.select();
+  navigator.clipboard.writeText(ta.value).then(() => toast("Prompt copiado! Cole em cada IA."));
+}
+
+// ---- Parser ----
+function normalize(s) {
+  return s.toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9 ]/g, "").trim();
+}
+
+function findMatch(homeRaw, awayRaw) {
+  const h = normalize(homeRaw);
+  const a = normalize(awayRaw);
+  const allMatches = [...state.matches, ...state.knockoutMatches];
+  return allMatches.find(m => {
+    const mh = normalize(m.home), ma = normalize(m.away);
+    return (
+      (mh === h && ma === a) ||
+      (mh === a && ma === h) ||
+      (mh.includes(h) && ma.includes(a)) ||
+      (mh.includes(a) && ma.includes(h)) ||
+      (h.includes(mh) && a.includes(ma)) ||
+      (h.includes(ma) && a.includes(mh))
+    );
+  }) || null;
+}
+
+function parseDocument(text, ai) {
+  const lines = text.split("\n");
+  let imported = 0, skipped = 0;
+
+  // Match pattern: "Team A N x N Team B" or "Team A N-N Team B"
+  const scoreRe = /^(.+?)\s+(\d+)\s*[x×\-:]\s*(\d+)\s+(.+?)[\s.]*$/i;
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line || line.toUpperCase().includes("FIM DOS PALPITES")) continue;
+    if (line.toUpperCase().startsWith("GRUPO") || line.startsWith("Jogo") || line.startsWith("//")) continue;
+
+    const m = line.match(scoreRe);
+    if (!m) continue;
+
+    const [, homeRaw, goalsH, goalsA, awayRaw] = m;
+    const match = findMatch(homeRaw.trim(), awayRaw.trim());
+    if (!match) { skipped++; continue; }
+
+    const isReversed = normalize(match.home) !== normalize(homeRaw.trim()) &&
+      (normalize(match.away) === normalize(homeRaw.trim()) || normalize(match.away).includes(normalize(homeRaw.trim())));
+
+    match.predictions[ai] = isReversed
+      ? { home: parseInt(goalsA), away: parseInt(goalsH) }
+      : { home: parseInt(goalsH), away: parseInt(goalsA) };
+
+    imported++;
+  }
+
+  saveState();
+  renderRanking();
+  renderImport();
+  return { imported, skipped };
+}
+
+function handleImport(ai) {
+  const ta = document.getElementById(`import-text-${ai}`);
+  const text = ta?.value?.trim();
+  if (!text) { toast("Cole o documento da IA antes de importar", "error"); return; }
+
+  const { imported, skipped } = parseDocument(text, ai);
+
+  if (imported === 0) {
+    toast(`Nenhum palpite reconhecido. Verifique o formato.`, "error");
+  } else {
+    toast(`${AI_LABELS[ai]}: ${imported} palpites importados! ${skipped > 0 ? `(${skipped} não reconhecidos)` : ""}`);
+    ta.value = "";
+  }
+}
+
+function handleFileImport(ai, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById(`import-text-${ai}`).value = e.target.result;
+    toast("Arquivo carregado. Clique em Importar.");
+  };
+  reader.readAsText(file);
+}
+
+function clearPredictions(ai) {
+  if (!confirm(`Apagar todos os palpites de ${AI_LABELS[ai]}?`)) return;
+  const allMatches = [...state.matches, ...state.knockoutMatches];
+  allMatches.forEach(m => m.predictions[ai] = null);
+  saveState();
+  renderRanking();
+  renderImport();
+  toast(`Palpites de ${AI_LABELS[ai]} removidos`);
+}
+
+// ---- Results View ----
 let currentPhase = "groups";
 let currentGroup = "A";
 
-function renderMatches() {
+function renderResults() {
   const phaseTabsEl = document.getElementById("phase-tabs");
   phaseTabsEl.innerHTML = PHASES.map(p =>
     `<button class="phase-tab ${currentPhase === p.id ? "active" : ""}" onclick="setPhase('${p.id}')">${p.label}</button>`
   ).join("");
 
-  if (currentPhase === "groups") {
-    renderGroupMatches();
-  } else {
-    renderKnockoutMatches();
-  }
+  if (currentPhase === "groups") renderGroupResults();
+  else renderKnockoutResults();
 }
 
-function setPhase(phase) {
-  currentPhase = phase;
-  renderMatches();
-}
+function setPhase(phase) { currentPhase = phase; renderResults(); }
+function setGroup(group) { currentGroup = group; renderGroupResults(); }
 
-function setGroup(group) {
-  currentGroup = group;
-  renderGroupMatches();
-}
-
-function renderGroupMatches() {
+function renderGroupResults() {
   const groups = Object.keys(state.groups);
-
   document.getElementById("group-tabs").innerHTML = groups.map(g =>
     `<button class="group-tab ${currentGroup === g ? "active" : ""}" onclick="setGroup('${g}')">Grupo ${g}</button>`
   ).join("");
   document.getElementById("group-tabs").style.display = "flex";
 
   const matches = state.matches.filter(m => m.group === currentGroup);
-  const list = document.getElementById("matches-list");
-  list.innerHTML = "";
-
-  if (matches.length === 0) {
-    list.innerHTML = `<div class="empty-state"><div class="empty-icon">⚽</div><div class="empty-title">Nenhum jogo</div><div class="empty-desc">Configure os times do Grupo ${currentGroup} na aba Configurações.</div></div>`;
-    return;
-  }
-
-  matches.forEach(match => {
-    list.innerHTML += renderMatchCard(match);
-  });
+  const list = document.getElementById("results-list");
+  list.innerHTML = matches.map(m => renderResultCard(m)).join("");
 }
 
-function renderKnockoutMatches() {
+function renderKnockoutResults() {
   document.getElementById("group-tabs").innerHTML = "";
   document.getElementById("group-tabs").style.display = "none";
 
   const phase = PHASES.find(p => p.id === currentPhase);
   const matches = state.knockoutMatches.filter(m => m.phase === currentPhase);
-  const list = document.getElementById("matches-list");
-  list.innerHTML = "";
+  const list = document.getElementById("results-list");
 
-  // Add match form
-  list.innerHTML += `
+  list.innerHTML = `
     <div class="add-match-row">
       <input type="text" id="new-home" placeholder="Time mandante">
       <span style="color:var(--text-muted);font-size:12px">×</span>
       <input type="text" id="new-away" placeholder="Time visitante">
-      <input type="date" id="new-date" style="color:var(--text-muted)">
+      <input type="date" id="new-date">
       <button class="btn-add" onclick="addKnockoutMatch('${currentPhase}')">+ Adicionar Jogo</button>
-    </div>`;
-
-  if (matches.length === 0) {
-    list.innerHTML += `<div class="empty-state" style="padding:30px 20px"><div class="empty-desc">Nenhum jogo adicionado para ${phase.label} ainda.</div></div>`;
-  } else {
-    matches.forEach(match => {
-      list.innerHTML += renderMatchCard(match, true);
-    });
-  }
+    </div>
+    ${matches.length === 0
+      ? `<div class="empty-state" style="padding:30px 20px"><div class="empty-desc">Nenhum jogo adicionado para ${phase.label} ainda.</div></div>`
+      : matches.map(m => renderResultCard(m, true)).join("")
+    }`;
 }
 
-function renderMatchCard(match, deletable = false) {
+function renderResultCard(match, deletable = false) {
   const mult = getMultiplier(match.phase);
   const hasResult = match.result !== null;
   const rh = hasResult ? match.result.home : "";
@@ -223,32 +361,34 @@ function renderMatchCard(match, deletable = false) {
 
   const predRows = AI_NAMES.map(ai => {
     const pred = match.predictions[ai];
-    const ph = pred ? pred.home : "";
-    const pa = pred ? pred.away : "";
+    if (!pred) return `<div class="prediction-row">
+      <span class="pred-ai-name"><span class="pred-logo">${AI_LOGOS[ai]}</span>${AI_LABELS[ai]}</span>
+      <span style="color:var(--text-muted);font-size:12px">Sem palpite</span>
+    </div>`;
+
+    const ph = pred.home, pa = pred.away;
     let pts = null, ptsClass = "";
-    if (hasResult && pred) {
+    if (hasResult) {
       pts = calcPoints(pred, match.result, mult);
       ptsClass = pts === 3 * mult ? "pts-exact" : pts > 0 ? "pts-correct" : "pts-wrong";
     }
     return `<div class="prediction-row">
-      <span class="pred-ai-name"><span class="ai-dot dot-${ai}"></span>${AI_LABELS[ai]}</span>
+      <span class="pred-ai-name"><span class="pred-logo">${AI_LOGOS[ai]}</span>${AI_LABELS[ai]}</span>
       <div class="score-inputs">
-        <input type="number" class="score-input" min="0" max="99" value="${ph}"
-          onchange="savePrediction('${match.id}','${ai}','home',this.value)"
-          placeholder="-">
+        <span class="score-display">${ph}</span>
         <span class="score-sep">×</span>
-        <input type="number" class="score-input" min="0" max="99" value="${pa}"
-          onchange="savePrediction('${match.id}','${ai}','away',this.value)"
-          placeholder="-">
+        <span class="score-display">${pa}</span>
       </div>
       ${pts !== null ? `<span class="pred-points ${ptsClass}">+${pts}pts</span>` : '<span class="pred-points"></span>'}
     </div>`;
   }).join("");
 
-  const deleteBtn = deletable ? `<button class="match-delete-btn" onclick="deleteMatch('${match.id}')" title="Remover">✕</button>` : "";
+  const deleteBtn = deletable
+    ? `<button class="match-delete-btn" onclick="deleteMatch('${match.id}')" title="Remover">✕</button>`
+    : "";
 
   return `
-    <div class="match-card ${hasResult ? "has-result completed" : ""}" id="mc-${match.id}">
+    <div class="match-card ${hasResult ? "has-result completed" : ""}">
       <div class="match-header">
         <div class="match-teams">
           <span>${match.home}</span>
@@ -263,11 +403,9 @@ function renderMatchCard(match, deletable = false) {
       <div class="match-result-row">
         <span class="result-label">Resultado real</span>
         <div class="result-score-inputs">
-          <input type="number" class="result-input" min="0" max="99" value="${rh}"
-            id="r-home-${match.id}" placeholder="-">
+          <input type="number" class="result-input" min="0" max="99" value="${rh}" id="r-home-${match.id}" placeholder="-">
           <span class="score-sep" style="font-size:14px">×</span>
-          <input type="number" class="result-input" min="0" max="99" value="${ra}"
-            id="r-away-${match.id}" placeholder="-">
+          <input type="number" class="result-input" min="0" max="99" value="${ra}" id="r-away-${match.id}" placeholder="-">
         </div>
         <button class="btn-save-result" onclick="saveResult('${match.id}')">Salvar</button>
         ${hasResult ? `<button class="btn-clear-result" onclick="clearResult('${match.id}')">Limpar</button>` : ""}
@@ -277,46 +415,31 @@ function renderMatchCard(match, deletable = false) {
 
 function formatDate(d) {
   if (!d) return "";
-  try {
-    return new Date(d + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
-  } catch { return d; }
-}
-
-// ---- Actions ----
-function savePrediction(matchId, ai, side, value) {
-  const match = findMatch(matchId);
-  if (!match) return;
-  if (!match.predictions[ai]) match.predictions[ai] = { home: "", away: "" };
-  match.predictions[ai][side] = value === "" ? "" : parseInt(value);
-  saveState();
-  updateMatchPoints(matchId);
+  try { return new Date(d + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }); }
+  catch { return d; }
 }
 
 function saveResult(matchId) {
-  const match = findMatch(matchId);
+  const match = findMatchById(matchId);
   if (!match) return;
   const h = document.getElementById(`r-home-${matchId}`)?.value;
   const a = document.getElementById(`r-away-${matchId}`)?.value;
   if (h === "" || a === "") { toast("Preencha o placar completo", "error"); return; }
   match.result = { home: parseInt(h), away: parseInt(a) };
   saveState();
-  renderMatches();
+  renderResults();
   renderRanking();
   toast("Resultado salvo! 🎉");
 }
 
 function clearResult(matchId) {
-  const match = findMatch(matchId);
+  const match = findMatchById(matchId);
   if (!match) return;
   match.result = null;
   saveState();
-  renderMatches();
+  renderResults();
   renderRanking();
   toast("Resultado removido");
-}
-
-function updateMatchPoints(matchId) {
-  renderRanking();
 }
 
 function addKnockoutMatch(phase) {
@@ -331,49 +454,50 @@ function addKnockoutMatch(phase) {
     predictions: { claude: null, chatgpt: null, gemini: null, deepseek: null }
   });
   saveState();
-  renderMatches();
+  renderResults();
+  renderRanking();
   toast("Jogo adicionado!");
 }
 
 function deleteMatch(matchId) {
   state.knockoutMatches = state.knockoutMatches.filter(m => m.id !== matchId);
   saveState();
-  renderMatches();
+  renderResults();
   renderRanking();
-  toast("Jogo removido");
 }
 
-function findMatch(id) {
+function findMatchById(id) {
   return state.matches.find(m => m.id === id) || state.knockoutMatches.find(m => m.id === id);
 }
 
-// ---- Settings / Teams ----
+// ---- Settings ----
 function renderSettings() {
   const grid = document.getElementById("teams-grid");
   grid.innerHTML = "";
   for (const [group, teams] of Object.entries(state.groups)) {
     const inputs = teams.map((t, i) =>
-      `<input class="team-input" value="${t}" placeholder="Time ${i+1}" onchange="updateTeam('${group}',${i},this.value)">`
+      `<input class="team-input" value="${t}" placeholder="Time ${i + 1}" onchange="updateTeam('${group}',${i},this.value)">`
     ).join("");
     grid.innerHTML += `<div class="group-editor"><h3>Grupo ${group}</h3>${inputs}</div>`;
   }
 }
 
-function updateTeam(group, idx, value) {
-  state.groups[group][idx] = value;
-}
+function updateTeam(group, idx, value) { state.groups[group][idx] = value; }
 
 function applyTeams() {
+  if (!confirm("Isso vai recriar todos os jogos da fase de grupos e apagar palpites e resultados existentes. Continuar?")) return;
   state.matches = generateGroupMatches(state.groups);
   saveState();
-  toast("Times atualizados! Jogos da fase de grupos recriados.");
+  toast("Times atualizados! Jogos recriados.");
   renderRanking();
 }
 
 function exportData() {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "bolao-ias-2026.json"; a.click();
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "bolao-ias-2026.json";
+  a.click();
   toast("Dados exportados!");
 }
 
@@ -381,17 +505,15 @@ function importData() {
   const input = document.createElement("input");
   input.type = "file"; input.accept = ".json";
   input.onchange = e => {
-    const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = ev => {
       try {
         state = JSON.parse(ev.target.result);
-        saveState();
-        renderAll();
+        saveState(); renderAll();
         toast("Dados importados com sucesso!");
       } catch { toast("Erro ao importar arquivo", "error"); }
     };
-    reader.readAsText(file);
+    reader.readAsText(e.target.files[0]);
   };
   input.click();
 }
@@ -403,55 +525,40 @@ function resetData() {
     matches: generateGroupMatches(JSON.parse(JSON.stringify(DEFAULT_GROUPS))),
     knockoutMatches: []
   };
-  saveState();
-  renderAll();
+  saveState(); renderAll();
   toast("Dados resetados");
 }
 
-// ---- Auto-fetch results (API) ----
+// ---- API auto-fetch ----
 async function fetchResults() {
   const apiKey = document.getElementById("api-key")?.value?.trim();
   if (!apiKey) { toast("Insira a chave da API primeiro", "error"); return; }
-
   toast("Buscando resultados...");
   try {
-    // Using football-data.org API (free tier)
     const res = await fetch("https://api.football-data.org/v4/competitions/WC/matches?status=FINISHED", {
       headers: { "X-Auth-Token": apiKey }
     });
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     const data = await res.json();
-
     let updated = 0;
     for (const game of data.matches) {
-      const home = game.homeTeam.name;
-      const away = game.awayTeam.name;
       const gh = game.score.fullTime.home;
       const ga = game.score.fullTime.away;
       if (gh === null || ga === null) continue;
-
-      const match = state.matches.find(m =>
-        (normalize(m.home) === normalize(home) || normalize(m.away) === normalize(home)) &&
-        (normalize(m.home) === normalize(away) || normalize(m.away) === normalize(away))
-      );
+      const match = findMatch(game.homeTeam.name, game.awayTeam.name);
       if (match && !match.result) {
-        match.result = {
-          home: normalize(match.home) === normalize(home) ? gh : ga,
-          away: normalize(match.away) === normalize(away) ? ga : gh
-        };
+        const isReversed = normalize(match.home) !== normalize(game.homeTeam.name);
+        match.result = isReversed
+          ? { home: ga, away: gh }
+          : { home: gh, away: ga };
         updated++;
       }
     }
-    saveState();
-    renderAll();
+    saveState(); renderAll();
     toast(`${updated} resultado(s) atualizado(s) via API!`);
   } catch (e) {
     toast(`Erro na API: ${e.message}`, "error");
   }
-}
-
-function normalize(s) {
-  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
 }
 
 // ---- Navigation ----
@@ -460,15 +567,17 @@ function showView(view) {
   document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
   document.getElementById(`view-${view}`).classList.add("active");
   document.querySelector(`[data-view="${view}"]`).classList.add("active");
-
-  if (view === "matches") renderMatches();
+  if (view === "import") renderImport();
+  if (view === "results") renderResults();
   if (view === "settings") renderSettings();
 }
 
 function renderAll() {
   renderRanking();
-  if (document.getElementById("view-matches").classList.contains("active")) renderMatches();
-  if (document.getElementById("view-settings").classList.contains("active")) renderSettings();
+  const active = document.querySelector(".view.active")?.id?.replace("view-", "");
+  if (active === "import") renderImport();
+  if (active === "results") renderResults();
+  if (active === "settings") renderSettings();
 }
 
 // ---- Toast ----
@@ -477,7 +586,7 @@ function toast(msg, type = "success") {
   el.textContent = msg;
   el.className = `toast ${type} show`;
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove("show"), 3000);
+  el._t = setTimeout(() => el.classList.remove("show"), 3500);
 }
 
 // ---- Init ----
