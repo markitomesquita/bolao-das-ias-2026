@@ -1,17 +1,17 @@
 // Copa do Mundo 2026 - Dados iniciais
 const DEFAULT_GROUPS = {
-  A: ["México", "Equador", "Croácia", "Marrocos"],
-  B: ["EUA", "Panamá", "Bolívia", "Nova Zelândia"],
-  C: ["Canadá", "Portugal", "Argélia", "Uruguai"],
-  D: ["Espanha", "Japão", "Camarões", "Chile"],
-  E: ["França", "Sérvia", "Costa Rica", "Coréia do Sul"],
-  F: ["Alemanha", "Colômbia", "Egito", "Arábia Saudita"],
-  G: ["Argentina", "Holanda", "Venezuela", "Quênia"],
-  H: ["Brasil", "Bélgica", "Japão", "Guatemala"],
-  I: ["Inglaterra", "Itália", "Costa do Marfim", "Eslováquia"],
-  J: ["Austrália", "Turquia", "Gabão", "Ucrânia"],
-  K: ["Suíça", "Dinamarca", "Nigéria", "Cuba"],
-  L: ["Senegal", "Suécia", "Indonésia", "Paraguai"]
+  A: ["África do Sul", "Coreia do Sul", "Rep. Tcheca", "México"],
+  B: ["Canadá", "Catar", "Suíça", "Bósnia e Herzegovina"],
+  C: ["Brasil", "Marrocos", "Escócia", "Haiti"],
+  D: ["EUA", "Paraguai", "Austrália", "Turquia"],
+  E: ["Alemanha", "Equador", "Costa do Marfim", "Curaçao"],
+  F: ["Países Baixos", "Japão", "Tunísia", "Suécia"],
+  G: ["Bélgica", "Irã", "Egito", "Nova Zelândia"],
+  H: ["Espanha", "Uruguai", "Arábia Saudita", "Cabo Verde"],
+  I: ["França", "Senegal", "Noruega", "Iraque"],
+  J: ["Argentina", "Áustria", "Argélia", "Jordânia"],
+  K: ["Portugal", "Colômbia", "Uzbequistão", "Rep. Dem. do Congo"],
+  L: ["Inglaterra", "Croácia", "Gana", "Panamá"]
 };
 
 const PHASES = [
