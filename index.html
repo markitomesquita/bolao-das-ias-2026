@@ -11,16 +11,16 @@
   <style>
     :root {
       --claude:   #D97706;
-      --chatgpt:  #10A37F;
-      --gemini:   #4285F4;
+      --chatgpt:  #059669;
+      --gemini:   #2563EB;
       --deepseek: #7C3AED;
-      --bg:       #080b12;
-      --surface:  #0f1420;
-      --s2:       #161c2e;
-      --border:   #1e2540;
-      --text:     #e8eaf0;
-      --muted:    #5a6180;
-      --gold:     #F59E0B;
+      --bg:       #F5F4F0;
+      --surface:  #FFFFFF;
+      --s2:       #EFEDE8;
+      --border:   #E2DDD6;
+      --text:     #1C1917;
+      --muted:    #78716C;
+      --gold:     #D97706;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
@@ -57,7 +57,7 @@
       font-size: clamp(36px, 8vw, 72px);
       font-weight: 900;
       letter-spacing: -2px;
-      background: linear-gradient(135deg, #fff 0%, #a0aec0 100%);
+      background: linear-gradient(135deg, #1C1917 0%, #78716C 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       line-height: 1;
@@ -76,7 +76,7 @@
       margin: 0 auto 16px;
       font-size: 15px;
       line-height: 1.7;
-      color: #7b849e;
+      color: var(--muted);
     }
     .tagline strong { color: var(--text); }
 
@@ -124,7 +124,7 @@
       cursor: default;
     }
     .ai-card:hover { transform: translateY(-3px); }
-    .ai-card.rank-1 { border-color: #F59E0B44; background: linear-gradient(160deg, #0f1420 0%, #1a1508 100%); }
+    .ai-card.rank-1 { border-color: #F59E0B66; background: linear-gradient(160deg, #FFFBF0 0%, #FFF8E8 100%); }
 
     .card-glow {
       position: absolute;
