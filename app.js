@@ -538,36 +538,178 @@ function resetData() {
   toast("Dados resetados");
 }
 
+// ---- Mapeamento inglês → português (football-data.org) ----
+const EN_TO_PT = {
+  // Grupo A
+  "South Africa":             "África do Sul",
+  "Korea Republic":           "Coreia do Sul",
+  "Republic of Korea":        "Coreia do Sul",
+  "Czech Republic":           "Rep. Tcheca",
+  "Czechia":                  "Rep. Tcheca",
+  "Mexico":                   "México",
+  // Grupo B
+  "Canada":                   "Canadá",
+  "Qatar":                    "Catar",
+  "Switzerland":              "Suíça",
+  "Bosnia and Herzegovina":   "Bósnia e Herzegovina",
+  "Bosnia & Herzegovina":     "Bósnia e Herzegovina",
+  // Grupo C
+  "Brazil":                   "Brasil",
+  "Morocco":                  "Marrocos",
+  "Scotland":                 "Escócia",
+  "Haiti":                    "Haiti",
+  // Grupo D
+  "USA":                      "EUA",
+  "United States":            "EUA",
+  "Paraguay":                 "Paraguai",
+  "Australia":                "Austrália",
+  "Turkey":                   "Turquia",
+  "Türkiye":                  "Turquia",
+  // Grupo E
+  "Germany":                  "Alemanha",
+  "Ecuador":                  "Equador",
+  "Ivory Coast":              "Costa do Marfim",
+  "Côte d'Ivoire":            "Costa do Marfim",
+  "Cote d'Ivoire":            "Costa do Marfim",
+  "Curacao":                  "Curaçao",
+  "Curaçao":                  "Curaçao",
+  // Grupo F
+  "Netherlands":              "Países Baixos",
+  "Japan":                    "Japão",
+  "Tunisia":                  "Tunísia",
+  "Sweden":                   "Suécia",
+  // Grupo G
+  "Belgium":                  "Bélgica",
+  "Iran":                     "Irã",
+  "IR Iran":                  "Irã",
+  "Egypt":                    "Egito",
+  "New Zealand":              "Nova Zelândia",
+  // Grupo H
+  "Spain":                    "Espanha",
+  "Uruguay":                  "Uruguai",
+  "Saudi Arabia":             "Arábia Saudita",
+  "Cape Verde":               "Cabo Verde",
+  "Cabo Verde":               "Cabo Verde",
+  // Grupo I
+  "France":                   "França",
+  "Senegal":                  "Senegal",
+  "Norway":                   "Noruega",
+  "Iraq":                     "Iraque",
+  // Grupo J
+  "Argentina":                "Argentina",
+  "Austria":                  "Áustria",
+  "Algeria":                  "Argélia",
+  "Jordan":                   "Jordânia",
+  // Grupo K
+  "Portugal":                 "Portugal",
+  "Colombia":                 "Colômbia",
+  "Uzbekistan":               "Uzbequistão",
+  "DR Congo":                 "Rep. Dem. do Congo",
+  "Congo DR":                 "Rep. Dem. do Congo",
+  "Democratic Republic of Congo": "Rep. Dem. do Congo",
+  // Grupo L
+  "England":                  "Inglaterra",
+  "Croatia":                  "Croácia",
+  "Ghana":                    "Gana",
+  "Panama":                   "Panamá"
+};
+
+function toPortuguese(englishName) {
+  if (!englishName) return englishName;
+  if (EN_TO_PT[englishName]) return EN_TO_PT[englishName];
+  // Fuzzy: tenta normalizar e comparar
+  const norm = normalize(englishName);
+  for (const [en, pt] of Object.entries(EN_TO_PT)) {
+    if (normalize(en) === norm) return pt;
+  }
+  return englishName; // mantém original se não encontrar
+}
+
 // ---- API auto-fetch ----
 async function fetchResults() {
-  const apiKey = document.getElementById("api-key")?.value?.trim();
-  if (!apiKey) { toast("Insira a chave da API primeiro", "error"); return; }
-  toast("Buscando resultados...");
+  const apiKey = (document.getElementById("api-key")?.value?.trim()) || localStorage.getItem("bolao_api_key");
+  if (!apiKey) { toast("Insira a API token em ⚙️ Config primeiro", "error"); showView("settings"); return; }
+
+  const btn = document.querySelector('[onclick="fetchResults()"]');
+  if (btn) { btn.disabled = true; btn.textContent = "⏳ Buscando..."; }
+
   try {
     const res = await fetch("https://api.football-data.org/v4/competitions/WC/matches?status=FINISHED", {
       headers: { "X-Auth-Token": apiKey }
     });
-    if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+    if (res.status === 401) throw new Error("API key inválida. Verifique a chave.");
+    if (res.status === 429) throw new Error("Limite de requisições atingido. Aguarde 1 minuto.");
+    if (!res.ok) throw new Error(`Erro na API: ${res.status}`);
+
     const data = await res.json();
-    let updated = 0;
-    for (const game of data.matches) {
-      const gh = game.score.fullTime.home;
-      const ga = game.score.fullTime.away;
-      if (gh === null || ga === null) continue;
-      const match = findMatch(game.homeTeam.name, game.awayTeam.name);
-      if (match && !match.result) {
-        const isReversed = normalize(match.home) !== normalize(game.homeTeam.name);
-        match.result = isReversed
-          ? { home: ga, away: gh }
-          : { home: gh, away: ga };
-        updated++;
-      }
+
+    if (!data.matches || data.matches.length === 0) {
+      toast("Nenhum jogo finalizado encontrado ainda.", "error");
+      return;
     }
-    saveState(); renderAll();
-    toast(`${updated} resultado(s) atualizado(s) via API!`);
+
+    let updated = 0, skipped = 0, notFound = [];
+
+    for (const game of data.matches) {
+      const gh = game.score?.fullTime?.home;
+      const ga = game.score?.fullTime?.away;
+      if (gh === null || gh === undefined || ga === null || ga === undefined) continue;
+
+      const homePt = toPortuguese(game.homeTeam.name);
+      const awayPt = toPortuguese(game.awayTeam.name);
+
+      const allMatches = [...state.matches, ...state.knockoutMatches];
+      const match = allMatches.find(m =>
+        (normalize(m.home) === normalize(homePt) && normalize(m.away) === normalize(awayPt)) ||
+        (normalize(m.home) === normalize(awayPt) && normalize(m.away) === normalize(homePt))
+      );
+
+      if (!match) {
+        notFound.push(`${homePt} x ${awayPt}`);
+        continue;
+      }
+
+      const isReversed = normalize(match.home) === normalize(awayPt);
+      match.result = isReversed
+        ? { home: ga, away: gh }
+        : { home: gh, away: ga };
+      updated++;
+    }
+
+    saveState();
+    renderAll();
+
+    let msg = `✅ ${updated} resultado(s) atualizado(s)!`;
+    if (notFound.length) msg += ` (${notFound.length} não mapeado(s))`;
+    toast(msg);
+
+    if (notFound.length) {
+      console.warn("Times não mapeados:", notFound);
+    }
+
   } catch (e) {
-    toast(`Erro na API: ${e.message}`, "error");
+    toast(e.message, "error");
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = "🔄 Buscar Resultados"; }
   }
+}
+
+// ---- API Key persistence ----
+function saveApiKey(value) {
+  localStorage.setItem("bolao_api_key", value);
+}
+
+function toggleApiKey() {
+  const input = document.getElementById("api-key");
+  if (!input) return;
+  input.type = input.type === "password" ? "text" : "password";
+}
+
+function loadApiKey() {
+  const key = localStorage.getItem("bolao_api_key");
+  const input = document.getElementById("api-key");
+  if (key && input) input.value = key;
 }
 
 // ---- Navigation ----
@@ -578,7 +720,7 @@ function showView(view) {
   document.querySelector(`[data-view="${view}"]`).classList.add("active");
   if (view === "import") renderImport();
   if (view === "results") renderResults();
-  if (view === "settings") renderSettings();
+  if (view === "settings") { renderSettings(); loadApiKey(); }
 }
 
 function renderAll() {

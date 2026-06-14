@@ -231,12 +231,24 @@
   <div class="settings-section">
     <h3>🤖 Busca Automática de Resultados</h3>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
-      Conecte a API <strong>football-data.org</strong> (gratuita) para puxar resultados automaticamente.
+      Conecte a API <strong>football-data.org</strong> para atualizar os placares automaticamente após cada jogo.
     </p>
+
+    <div style="background:var(--surface2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;line-height:1.7">
+      <strong>Como configurar:</strong><br>
+      1. Acesse <strong>football-data.org</strong> e crie uma conta gratuita<br>
+      2. Na sua conta, copie a <strong>API Token</strong> da seção "Account"<br>
+      3. Cole abaixo e clique em <strong>Buscar Resultados</strong> sempre que quiser atualizar<br>
+      <span style="color:var(--text-muted)">Plano gratuito: 10 req/min · Copa do Mundo incluída ✓</span>
+    </div>
+
     <div class="form-group">
-      <label class="form-label">Chave da API (football-data.org)</label>
-      <input type="text" class="form-input" id="api-key" placeholder="Sua API key aqui">
-      <div class="form-hint">Crie uma conta gratuita em football-data.org para obter a chave.</div>
+      <label class="form-label">API Token (football-data.org)</label>
+      <div style="display:flex;gap:8px">
+        <input type="password" class="form-input" id="api-key" placeholder="Cole sua API token aqui" oninput="saveApiKey(this.value)">
+        <button class="btn-secondary" onclick="toggleApiKey()" style="white-space:nowrap;flex-shrink:0">👁 Ver</button>
+      </div>
+      <div class="form-hint">A chave fica salva localmente no seu navegador.</div>
     </div>
     <div class="btn-row">
       <button class="btn-primary" onclick="fetchResults()">🔄 Buscar Resultados</button>
