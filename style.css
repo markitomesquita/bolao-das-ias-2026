@@ -658,6 +658,76 @@ main { max-width: 1200px; margin: 0 auto; padding: 24px; }
 
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
 
+/* ---- Auth Gate ---- */
+#auth-gate {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background: radial-gradient(ellipse at 50% 0%, #0f1a2e 0%, var(--bg) 70%);
+}
+
+.gate-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.gate-logo { font-size: 40px; margin-bottom: 16px; }
+.gate-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.gate-sub   { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+.gate-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color .15s;
+  display: block;
+  margin-bottom: 12px;
+}
+.gate-input:focus { border-color: var(--text-muted); }
+
+.gate-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #F59E0B, #EF4444);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: opacity .15s;
+}
+.gate-btn:hover { opacity: .9; }
+
+.gate-error {
+  font-size: 13px;
+  color: #EF4444;
+  margin-top: 12px;
+  min-height: 18px;
+}
+
+.gate-back {
+  display: block;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.gate-back:hover { color: var(--text); }
+
 /* Sync status indicator */
 .sync-status {
   display: flex;

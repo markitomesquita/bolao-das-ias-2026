@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "bolao",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "4321", "/Users/marcusmesquita/Documents/Bolão das IAs"],
+      "port": 4321
+    }
+  ]
+}

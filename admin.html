@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Bolão das IAs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ======================== GATE DE SENHA ======================== -->
+<div id="auth-gate">
+  <div class="gate-box">
+    <div class="gate-logo">🔐</div>
+    <h2 class="gate-title">Área Administrativa</h2>
+    <p class="gate-sub" id="gate-sub">Acesso restrito. Insira a senha para continuar.</p>
+    <div id="first-run" style="display:none">
+      <p style="font-size:13px;color:#F59E0B;margin-bottom:16px;text-align:center">
+        Primeira vez? Crie sua senha de administrador.
+      </p>
+      <input type="password" class="gate-input" id="pwd-new"    placeholder="Nova senha">
+      <input type="password" class="gate-input" id="pwd-confirm" placeholder="Confirmar senha" style="margin-top:8px">
+      <button class="gate-btn" onclick="setPassword()">Criar Senha</button>
+    </div>
+    <div id="login-form">
+      <input type="password" class="gate-input" id="pwd-input" placeholder="Senha" onkeydown="if(event.key==='Enter')login()">
+      <button class="gate-btn" onclick="login()">Entrar</button>
+    </div>
+    <p class="gate-error" id="gate-error"></p>
+    <a href="index.html" class="gate-back">← Ver ranking público</a>
+  </div>
+</div>
+
+<!-- ======================== ADMIN PANEL ======================== -->
+<div id="admin-panel" style="display:none">
+
+<header>
+  <div class="logo">⚙️ Admin <span>Bolão das IAs · Copa 2026</span></div>
+  <div class="sync-status" title="Auto-sync ESPN">
+    <span class="sync-dot" id="sync-dot"></span>
+    <span class="sync-label" id="sync-label">Conectando...</span>
+  </div>
+  <nav>
+    <button class="nav-btn active" data-view="import"   onclick="showView('import')">📥 Palpites</button>
+    <button class="nav-btn"        data-view="results"  onclick="showView('results')">⚽ Resultados</button>
+    <button class="nav-btn"        data-view="settings" onclick="showView('settings')">⚙️ Config</button>
+    <a href="index.html" class="nav-btn" style="text-decoration:none">🏆 Ver Público</a>
+    <button class="nav-btn" onclick="logout()" style="color:#EF4444">Sair</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ======================== IMPORTAR PALPITES ======================== -->
+<div class="view active" id="view-import">
+  <div style="margin-bottom:24px">
+    <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">Importar Palpites das IAs</h2>
+    <p style="font-size:13px;color:var(--text-muted)">Gere o prompt, envie para cada IA e cole a resposta aqui.</p>
+  </div>
+
+  <div class="settings-section" style="margin-bottom:24px">
+    <h3>📋 Prompt Padronizado</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
+      Use <strong>exatamente o mesmo prompt</strong> para todas as IAs. Data de corte: <strong>10 de junho de 2026</strong>.
+    </p>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="showPrompt()">📋 Gerar Prompt</button>
+    </div>
+    <div id="prompt-box" style="display:none;margin-top:16px">
+      <textarea id="prompt-output" readonly
+        style="width:100%;height:300px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:14px;font-size:12px;font-family:monospace;line-height:1.6;resize:vertical;outline:none"></textarea>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn-primary" onclick="copyPrompt()">📋 Copiar Prompt</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Colar Resposta de Cada IA</div>
+  <div class="import-grid">
+    <div class="import-card" data-ai="claude">
+      <div class="import-card-header">
+        <div class="import-logo"><img src="claude.png" class="ai-logo-img"></div>
+        <div>
+          <div class="import-ai-name" style="color:var(--claude)">Claude</div>
+          <div id="import-status-claude" class="import-status">Aguardando documento...</div>
+        </div>
+        <button class="btn-clear-result" onclick="clearPredictions('claude')" style="margin-left:auto">Limpar</button>
+      </div>
+      <textarea id="import-text-claude" class="import-textarea" placeholder="Cole aqui a resposta do Claude...&#10;Formato: Brasil 2 x 1 Argentina"></textarea>
+      <div class="import-actions">
+        <label class="btn-secondary" style="cursor:pointer">📂 Arquivo<input type="file" accept=".txt,.md" style="display:none" onchange="handleFileImport('claude',this)"></label>
+        <button class="btn-primary" onclick="handleImport('claude')">⬆️ Importar</button>
+      </div>
+    </div>
+    <div class="import-card" data-ai="chatgpt">
+      <div class="import-card-header">
+        <div class="import-logo"><img src="chatgpt.png" class="ai-logo-img"></div>
+        <div>
+          <div class="import-ai-name" style="color:var(--chatgpt)">ChatGPT</div>
+          <div id="import-status-chatgpt" class="import-status">Aguardando documento...</div>
+        </div>
+        <button class="btn-clear-result" onclick="clearPredictions('chatgpt')" style="margin-left:auto">Limpar</button>
+      </div>
+      <textarea id="import-text-chatgpt" class="import-textarea" placeholder="Cole aqui a resposta do ChatGPT..."></textarea>
+      <div class="import-actions">
+        <label class="btn-secondary" style="cursor:pointer">📂 Arquivo<input type="file" accept=".txt,.md" style="display:none" onchange="handleFileImport('chatgpt',this)"></label>
+        <button class="btn-primary" onclick="handleImport('chatgpt')">⬆️ Importar</button>
+      </div>
+    </div>
+    <div class="import-card" data-ai="gemini">
+      <div class="import-card-header">
+        <div class="import-logo"><img src="gemini.png" class="ai-logo-img"></div>
+        <div>
+          <div class="import-ai-name" style="color:var(--gemini)">Gemini</div>
+          <div id="import-status-gemini" class="import-status">Aguardando documento...</div>
+        </div>
+        <button class="btn-clear-result" onclick="clearPredictions('gemini')" style="margin-left:auto">Limpar</button>
+      </div>
+      <textarea id="import-text-gemini" class="import-textarea" placeholder="Cole aqui a resposta do Gemini..."></textarea>
+      <div class="import-actions">
+        <label class="btn-secondary" style="cursor:pointer">📂 Arquivo<input type="file" accept=".txt,.md" style="display:none" onchange="handleFileImport('gemini',this)"></label>
+        <button class="btn-primary" onclick="handleImport('gemini')">⬆️ Importar</button>
+      </div>
+    </div>
+    <div class="import-card" data-ai="deepseek">
+      <div class="import-card-header">
+        <div class="import-logo"><img src="deepseek.png" class="ai-logo-img"></div>
+        <div>
+          <div class="import-ai-name" style="color:var(--deepseek)">DeepSeek</div>
+          <div id="import-status-deepseek" class="import-status">Aguardando documento...</div>
+        </div>
+        <button class="btn-clear-result" onclick="clearPredictions('deepseek')" style="margin-left:auto">Limpar</button>
+      </div>
+      <textarea id="import-text-deepseek" class="import-textarea" placeholder="Cole aqui a resposta do DeepSeek..."></textarea>
+      <div class="import-actions">
+        <label class="btn-secondary" style="cursor:pointer">📂 Arquivo<input type="file" accept=".txt,.md" style="display:none" onchange="handleFileImport('deepseek',this)"></label>
+        <button class="btn-primary" onclick="handleImport('deepseek')">⬆️ Importar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== RESULTADOS ======================== -->
+<div class="view" id="view-results">
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">Resultados dos Jogos</h2>
+    <p style="font-size:13px;color:var(--text-muted)">Resultados reais são atualizados automaticamente pela ESPN. Edite aqui se necessário.</p>
+  </div>
+  <div class="phase-tabs" id="phase-tabs"></div>
+  <div class="group-tabs" id="group-tabs"></div>
+  <div class="matches-list" id="results-list"></div>
+</div>
+
+<!-- ======================== CONFIG ======================== -->
+<div class="view" id="view-settings">
+  <div style="margin-bottom:24px"><h2 style="font-size:20px;font-weight:700">Configurações</h2></div>
+
+  <div class="settings-section">
+    <h3>🔄 Sincronização Automática</h3>
+    <div style="background:var(--surface2);border-radius:10px;padding:14px;font-size:13px;line-height:1.8">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span class="sync-dot ok" style="width:8px;height:8px"></span>
+        <strong>Ativa — via API ESPN (sem cadastro)</strong>
+      </div>
+      <span style="color:var(--text-muted)">
+        • Durante jogos (13h–00h BRT): a cada <strong>90 segundos</strong><br>
+        • Fora do horário: a cada <strong>5 minutos</strong>
+      </span>
+    </div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn-secondary" onclick="fetchESPN(false)">🔄 Forçar Atualização</button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h3>🌍 Times por Grupo</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
+      <strong style="color:#F59E0B">⚠️ Salvar recria todos os jogos e apaga palpites/resultados.</strong>
+    </p>
+    <div class="teams-grid" id="teams-grid"></div>
+    <div class="btn-row"><button class="btn-primary" onclick="applyTeams()">💾 Salvar Times</button></div>
+  </div>
+
+  <div class="settings-section">
+    <h3>🔐 Alterar Senha</h3>
+    <div class="form-group">
+      <label class="form-label">Senha atual</label>
+      <input type="password" class="form-input" id="pwd-current" placeholder="Senha atual">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nova senha</label>
+      <input type="password" class="form-input" id="pwd-new-admin" placeholder="Nova senha">
+    </div>
+    <div class="btn-row"><button class="btn-secondary" onclick="changePassword()">🔐 Alterar Senha</button></div>
+  </div>
+
+  <div class="settings-section">
+    <h3>💾 Backup</h3>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="exportData()">⬇️ Exportar JSON</button>
+      <button class="btn-secondary" onclick="importData()">⬆️ Importar JSON</button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h3>🗑️ Reset</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Apaga tudo. Sem volta.</p>
+    <button class="btn-danger" onclick="resetData()">⚠️ Resetar Todos os Dados</button>
+  </div>
+</div>
+
+</main>
+</div><!-- /admin-panel -->
+
+<div class="toast" id="toast"></div>
+
+<script src="logos.js"></script>
+<script src="data.js"></script>
+<script src="shared.js"></script>
+<script src="app.js"></script>
+<script>
+// ---- Auth ----
+const HASH_KEY = "bolao_admin_hash";
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+async function login() {
+  const pwd  = document.getElementById("pwd-input").value;
+  const hash = await sha256(pwd);
+  const stored = localStorage.getItem(HASH_KEY);
+  if (hash === stored) {
+    sessionStorage.setItem("bolao_auth", "1");
+    showAdmin();
+  } else {
+    const err = document.getElementById("gate-error");
+    err.textContent = "Senha incorreta. Tenta de novo.";
+    document.getElementById("pwd-input").value = "";
+    document.getElementById("pwd-input").focus();
+  }
+}
+
+async function setPassword() {
+  const pwd1 = document.getElementById("pwd-new").value;
+  const pwd2 = document.getElementById("pwd-confirm").value;
+  if (!pwd1 || pwd1.length < 4) {
+    document.getElementById("gate-error").textContent = "Mínimo 4 caracteres."; return;
+  }
+  if (pwd1 !== pwd2) {
+    document.getElementById("gate-error").textContent = "As senhas não batem."; return;
+  }
+  const hash = await sha256(pwd1);
+  localStorage.setItem(HASH_KEY, hash);
+  sessionStorage.setItem("bolao_auth", "1");
+  showAdmin();
+}
+
+async function changePassword() {
+  const current = document.getElementById("pwd-current").value;
+  const newPwd  = document.getElementById("pwd-new-admin").value;
+  const stored  = localStorage.getItem(HASH_KEY);
+  const hashCurrent = await sha256(current);
+  if (hashCurrent !== stored) { toast("Senha atual incorreta", "error"); return; }
+  if (!newPwd || newPwd.length < 4) { toast("Mínimo 4 caracteres", "error"); return; }
+  const newHash = await sha256(newPwd);
+  localStorage.setItem(HASH_KEY, newHash);
+  document.getElementById("pwd-current").value = "";
+  document.getElementById("pwd-new-admin").value = "";
+  toast("Senha alterada com sucesso!");
+}
+
+function logout() {
+  sessionStorage.removeItem("bolao_auth");
+  location.reload();
+}
+
+function showAdmin() {
+  document.getElementById("auth-gate").style.display  = "none";
+  document.getElementById("admin-panel").style.display = "block";
+  initAdmin();
+}
+
+function initAdmin() {
+  loadState();
+  renderImport();
+  startAutoSync();
+}
+
+// Hooks do shared.js para atualizar UI
+onSyncStart = () => {
+  const dot = document.getElementById("sync-dot");
+  const lbl = document.getElementById("sync-label");
+  if (dot) dot.className = "sync-dot fetching";
+  if (lbl) lbl.textContent = "Atualizando...";
+};
+onSyncOk = (t) => {
+  const dot = document.getElementById("sync-dot");
+  const lbl = document.getElementById("sync-label");
+  if (dot) dot.className = "sync-dot ok";
+  if (lbl) lbl.textContent = `ESPN · ${t.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`;
+};
+onSyncError = (msg) => {
+  const dot = document.getElementById("sync-dot");
+  const lbl = document.getElementById("sync-label");
+  if (dot) dot.className = "sync-dot error";
+  if (lbl) lbl.textContent = "Erro ESPN";
+};
+onResultsUpdated = () => {
+  if (document.getElementById("view-results").classList.contains("active")) renderResults();
+};
+
+// ---- Init: verificar sessão ----
+document.addEventListener("DOMContentLoaded", () => {
+  const hasHash = !!localStorage.getItem(HASH_KEY);
+  const authed  = sessionStorage.getItem("bolao_auth") === "1";
+
+  if (authed) { showAdmin(); return; }
+
+  if (!hasHash) {
+    document.getElementById("first-run").style.display = "block";
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("gate-sub").textContent = "Primeira vez? Crie sua senha de administrador.";
+  }
+  document.getElementById("auth-gate").style.display = "flex";
+});
+</script>
+
+</body>
+</html>
