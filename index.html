@@ -219,6 +219,7 @@
     .ai-card[data-ai="chatgpt"]  .card-progress-fill { background: var(--chatgpt); }
     .ai-card[data-ai="gemini"]   .card-progress-fill { background: var(--gemini); }
     .ai-card[data-ai="deepseek"] .card-progress-fill { background: var(--deepseek); }
+    .ai-card[data-ai="grok"]     .card-progress-fill { background: var(--grok); }
     .card-progress-label { font-size: 10px; color: var(--muted); margin-top: 5px; }
 
     /* ---- COMPARE TABLE ---- */
@@ -454,15 +455,15 @@ function render() {
   const scores = calcAllScores();
   const sorted = [...AI_NAMES].sort((a,b) => scores[b].total - scores[a].total);
   const total  = completedGames();
-  const maxPts = Math.max(...sorted.map(ai => scores[ai].total), 1);
+  const totalGamesCount = state.matches.length + state.knockoutMatches.length;
 
   // Cards
   const grid = document.getElementById("ranking-grid");
   grid.innerHTML = sorted.map((ai, i) => {
-    const s   = scores[ai];
-    const pct = Math.round((s.total / maxPts) * 100);
+    const s      = scores[ai];
     const played = [...state.matches,...state.knockoutMatches].filter(m=>m.result&&m.predictions[ai]).length;
-    const tried  = [...state.matches,...state.knockoutMatches].filter(m=>m.result&&m.predictions[ai]).length;
+    const pct    = totalGamesCount ? Math.round((played / totalGamesCount) * 100) : 0;
+    const tried  = played;
     const acc    = tried ? Math.round(((s.exact+s.correct)/tried)*100) : 0;
     return `
     <div class="ai-card rank-${i+1}" data-ai="${ai}">
