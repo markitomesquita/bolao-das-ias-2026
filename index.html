@@ -462,9 +462,9 @@ function render() {
   grid.innerHTML = sorted.map((ai, i) => {
     const s      = scores[ai];
     const played = [...state.matches,...state.knockoutMatches].filter(m=>m.result&&m.predictions[ai]).length;
-    const pct    = totalGamesCount ? Math.round((played / totalGamesCount) * 100) : 0;
     const tried  = played;
-    const acc    = tried ? Math.round(((s.exact+s.correct)/tried)*100) : 0;
+    const acc    = tried ? Math.round(((s.exact + s.correct) / tried) * 100) : 0;
+    const pct    = acc;
     return `
     <div class="ai-card rank-${i+1}" data-ai="${ai}">
       <div class="card-glow"></div>
