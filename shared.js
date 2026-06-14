@@ -58,7 +58,7 @@ async function loadFromCloud() {
     if (!res.ok) return false;
     const data = await res.json();
     const cloud = data.record;
-    if (cloud && (cloud.matches?.length || cloud.knockoutMatches?.length)) {
+    if (cloud && cloud.groups && Object.keys(cloud.groups).length > 0) {
       state = { ...state, ...cloud };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       return true;
