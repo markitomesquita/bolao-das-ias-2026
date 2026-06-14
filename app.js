@@ -319,6 +319,15 @@ function renderResults() {
 function setPhase(phase) { currentPhase = phase; renderResults(); }
 function setGroup(group) { currentGroup = group; renderGroupResults(); }
 
+function sortByDate(matches) {
+  return [...matches].sort((a, b) => {
+    if (!a.date && !b.date) return 0;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    return a.date.localeCompare(b.date);
+  });
+}
+
 function renderGroupResults() {
   const groups = Object.keys(state.groups);
   document.getElementById("group-tabs").innerHTML = groups.map(g =>
@@ -326,7 +335,7 @@ function renderGroupResults() {
   ).join("");
   document.getElementById("group-tabs").style.display = "flex";
 
-  const matches = state.matches.filter(m => m.group === currentGroup);
+  const matches = sortByDate(state.matches.filter(m => m.group === currentGroup));
   const list = document.getElementById("results-list");
   list.innerHTML = matches.map(m => renderResultCard(m)).join("");
 }
@@ -336,7 +345,7 @@ function renderKnockoutResults() {
   document.getElementById("group-tabs").style.display = "none";
 
   const phase = PHASES.find(p => p.id === currentPhase);
-  const matches = state.knockoutMatches.filter(m => m.phase === currentPhase);
+  const matches = sortByDate(state.knockoutMatches.filter(m => m.phase === currentPhase));
   const list = document.getElementById("results-list");
 
   list.innerHTML = `
@@ -391,9 +400,9 @@ function renderResultCard(match, deletable = false) {
     <div class="match-card ${hasResult ? "has-result completed" : ""}">
       <div class="match-header">
         <div class="match-teams">
-          <span>${match.home}</span>
+          <span>${teamLabel(match.home)}</span>
           <span class="match-vs">vs</span>
-          <span>${match.away}</span>
+          <span>${teamLabel(match.away)}</span>
         </div>
         ${match.date ? `<span class="match-date">${formatDate(match.date)}</span>` : ""}
         ${hasResult ? `<span class="match-result-badge">${rh} × ${ra}</span>` : ""}

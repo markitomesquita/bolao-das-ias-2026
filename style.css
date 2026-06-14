@@ -701,16 +701,27 @@ main { max-width: 1200px; margin: 0 auto; padding: 24px; }
   margin-bottom: 10px;
 }
 
-.card-logo svg { width: 48px; height: 48px; }
+.ai-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.card-logo .ai-logo-img { width: 48px; height: 48px; }
 
 .ai-logo-sm {
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
-  margin-right: 8px;
+  margin-right: 6px;
 }
 
-.ai-logo-sm svg { width: 22px; height: 22px; }
+.ai-logo-sm .ai-logo-img { width: 20px; height: 20px; border-radius: 4px; }
+
+.import-logo .ai-logo-img { width: 36px; height: 36px; border-radius: 6px; }
+
+.pred-logo .ai-logo-img { width: 16px; height: 16px; border-radius: 3px; }
 
 /* Imported badge */
 .imported-badge {
