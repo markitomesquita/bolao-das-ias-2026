@@ -139,6 +139,21 @@
         <button class="btn-primary" onclick="handleImport('deepseek')">⬆️ Importar</button>
       </div>
     </div>
+    <div class="import-card" data-ai="grok">
+      <div class="import-card-header">
+        <div class="import-logo"><img src="grok.png" class="ai-logo-img"></div>
+        <div>
+          <div class="import-ai-name" style="color:#000000">Grok</div>
+          <div id="import-status-grok" class="import-status">Aguardando documento...</div>
+        </div>
+        <button class="btn-clear-result" onclick="clearPredictions('grok')" style="margin-left:auto">Limpar</button>
+      </div>
+      <textarea id="import-text-grok" class="import-textarea" placeholder="Cole aqui a resposta do Grok..."></textarea>
+      <div class="import-actions">
+        <label class="btn-secondary" style="cursor:pointer">📂 Arquivo<input type="file" accept=".txt,.md" style="display:none" onchange="handleFileImport('grok',this)"></label>
+        <button class="btn-primary" onclick="handleImport('grok')">⬆️ Importar</button>
+      </div>
+    </div>
   </div>
 </div>
 

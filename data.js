@@ -23,8 +23,8 @@ const PHASES = [
   { id: "final",  label: "Final",             multiplier: 5 }
 ];
 
-const AI_NAMES   = ["claude", "chatgpt", "gemini", "deepseek"];
-const AI_LABELS  = { claude: "Claude", chatgpt: "ChatGPT", gemini: "Gemini", deepseek: "DeepSeek" };
+const AI_NAMES   = ["claude", "chatgpt", "gemini", "deepseek", "grok"];
+const AI_LABELS  = { claude: "Claude", chatgpt: "ChatGPT", gemini: "Gemini", deepseek: "DeepSeek", grok: "Grok" };
 
 // Datas dos jogos da fase de grupos (Rodada 1: 11-16/06 | Rodada 2: 17-21/06 | Rodada 3: 22-26/06)
 // Formato: "Home|Away|YYYY-MM-DD"
@@ -137,7 +137,7 @@ function generateGroupMatches(groups) {
           away,
           date: getMatchDate(home, away),
           result: null,
-          predictions: { claude: null, chatgpt: null, gemini: null, deepseek: null }
+          predictions: { claude: null, chatgpt: null, gemini: null, deepseek: null, grok: null }
         });
       }
     }

@@ -257,7 +257,7 @@ function addKnockoutMatch(phase) {
   if (!home || !away) { toast("Preencha os dois times", "error"); return; }
   state.knockoutMatches.push({
     id: `K${Date.now()}`, phase, home, away, date, result: null,
-    predictions: { claude: null, chatgpt: null, gemini: null, deepseek: null }
+    predictions: { claude: null, chatgpt: null, gemini: null, deepseek: null, grok: null }
   });
   saveState(); renderResults();
   toast("Jogo adicionado!");

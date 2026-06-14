@@ -3,7 +3,8 @@ const AI_LOGOS = {
   claude:   `<img src="claude.png"   alt="Claude"   class="ai-logo-img">`,
   chatgpt:  `<img src="chatgpt.png"  alt="ChatGPT"  class="ai-logo-img">`,
   gemini:   `<img src="gemini.png"   alt="Gemini"   class="ai-logo-img">`,
-  deepseek: `<img src="deepseek.png" alt="DeepSeek" class="ai-logo-img">`
+  deepseek: `<img src="deepseek.png" alt="DeepSeek" class="ai-logo-img">`,
+  grok:     `<img src="grok.png"     alt="Grok"     class="ai-logo-img">`
 };
 
 // Emojis de bandeira por nome de seleção
