@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bolão das IAs — Copa 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">⚽ Bolão das IAs <span>Copa do Mundo 2026</span></div>
+  <nav>
+    <button class="nav-btn active" data-view="ranking" onclick="showView('ranking')">🏆 Ranking</button>
+    <button class="nav-btn" data-view="matches" onclick="showView('matches')">⚽ Jogos</button>
+    <button class="nav-btn" data-view="settings" onclick="showView('settings')">⚙️ Config</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ======================== RANKING ======================== -->
+  <div class="view active" id="view-ranking">
+
+    <div class="ranking-header">
+      <h2>Ranking ao Vivo</h2>
+      <span class="phase-badge">🔴 Copa do Mundo 2026</span>
+    </div>
+
+    <div class="ranking-grid" id="ranking-grid">
+      <!-- Cards renderizados por app.js -->
+    </div>
+
+    <div class="section-title">Tabela Detalhada</div>
+    <div class="comparison-table">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>IA</th>
+            <th>Total</th>
+            <th>Pts Exatos</th>
+            <th>Pts Resultado</th>
+            <th>Placares Exatos</th>
+            <th>Resultados Certos</th>
+            <th>Erros</th>
+            <th>Jogos</th>
+          </tr>
+        </thead>
+        <tbody id="ranking-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Sistema de pontuação -->
+    <div class="section-title">Sistema de Pontuação</div>
+    <div class="scoring-info">
+      <div style="font-size:14px;color:var(--text-muted);margin-bottom:4px">Como os pontos são calculados</div>
+      <div class="scoring-grid">
+        <div class="scoring-item">
+          <div class="scoring-pts">3</div>
+          <div>
+            <div class="scoring-desc">✅ Placar Exato</div>
+            <div class="scoring-sub">Acertou o placar certinho</div>
+          </div>
+        </div>
+        <div class="scoring-item">
+          <div class="scoring-pts">1</div>
+          <div>
+            <div class="scoring-desc">🎯 Resultado Certo</div>
+            <div class="scoring-sub">Acertou quem ganhou/empate</div>
+          </div>
+        </div>
+        <div class="scoring-item">
+          <div class="scoring-pts">0</div>
+          <div>
+            <div class="scoring-desc">❌ Errou</div>
+            <div class="scoring-sub">Resultado errado</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <div class="scoring-desc" style="font-size:13px;font-weight:600;margin-bottom:8px">Multiplicadores por fase</div>
+        <div class="scoring-grid">
+          <div class="scoring-item">
+            <div class="scoring-pts" style="font-size:16px">×1</div>
+            <div><div class="scoring-desc">Fase de Grupos</div></div>
+          </div>
+          <div class="scoring-item">
+            <div class="scoring-pts" style="font-size:16px">×2</div>
+            <div><div class="scoring-desc">Oitavas de Final</div></div>
+          </div>
+          <div class="scoring-item">
+            <div class="scoring-pts" style="font-size:16px">×3</div>
+            <div><div class="scoring-desc">Quartas de Final</div></div>
+          </div>
+          <div class="scoring-item">
+            <div class="scoring-pts" style="font-size:16px">×4</div>
+            <div><div class="scoring-desc">Semifinal / 3º Lugar</div></div>
+          </div>
+          <div class="scoring-item">
+            <div class="scoring-pts" style="font-size:16px">×5</div>
+            <div><div class="scoring-desc">Final</div></div>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-muted)">
+          Exemplo: Acerto de placar exato na Final = 3 × 5 = <strong style="color:var(--gold)">15 pontos</strong>
+          &nbsp;|&nbsp; Pontuação máxima possível: <strong style="color:var(--gold)">459 pts</strong>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ======================== JOGOS ======================== -->
+  <div class="view" id="view-matches">
+
+    <div style="margin-bottom:20px">
+      <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">Jogos e Previsões</h2>
+      <p style="font-size:13px;color:var(--text-muted)">Preencha as previsões de cada IA e os resultados reais dos jogos.</p>
+    </div>
+
+    <div class="phase-tabs" id="phase-tabs"></div>
+    <div class="group-tabs" id="group-tabs"></div>
+    <div class="matches-list" id="matches-list"></div>
+
+  </div>
+
+  <!-- ======================== CONFIGURAÇÕES ======================== -->
+  <div class="view" id="view-settings">
+
+    <div style="margin-bottom:24px">
+      <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">Configurações</h2>
+    </div>
+
+    <!-- Teams editor -->
+    <div class="settings-section">
+      <h3>🌍 Times por Grupo</h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
+        Edite os times de cada grupo. Ao salvar, os jogos da fase de grupos serão recriados automaticamente.
+        <br><strong style="color:#F59E0B">⚠️ Isso apagará previsões e resultados já inseridos nos jogos de grupos.</strong>
+      </p>
+      <div class="teams-grid" id="teams-grid"></div>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="applyTeams()">💾 Salvar Times e Recriar Jogos</button>
+      </div>
+    </div>
+
+    <!-- API -->
+    <div class="settings-section">
+      <h3>🤖 Busca Automática de Resultados</h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
+        Use a API <strong>football-data.org</strong> para puxar os resultados dos jogos automaticamente.
+        Crie uma conta gratuita em <a href="https://www.football-data.org" target="_blank" style="color:#4285F4">football-data.org</a> para obter sua chave.
+      </p>
+      <div class="form-group">
+        <label class="form-label">Chave da API</label>
+        <input type="text" class="form-input" id="api-key" placeholder="Insira sua API key aqui">
+        <div class="form-hint">Plano gratuito: 10 requisições/minuto. Nomes de times em inglês.</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="fetchResults()">🔄 Buscar Resultados da API</button>
+      </div>
+    </div>
+
+    <!-- Backup -->
+    <div class="settings-section">
+      <h3>💾 Backup dos Dados</h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
+        Exporte todos os dados do bolão para um arquivo JSON, ou importe um backup anterior.
+      </p>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="exportData()">⬇️ Exportar JSON</button>
+        <button class="btn-secondary" onclick="importData()">⬆️ Importar JSON</button>
+      </div>
+    </div>
+
+    <!-- Reset -->
+    <div class="settings-section">
+      <h3>🗑️ Resetar Bolão</h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
+        Apaga todos os dados e começa do zero. Esta ação não pode ser desfeita.
+      </p>
+      <div class="btn-row">
+        <button class="btn-danger" onclick="resetData()">⚠️ Resetar Todos os Dados</button>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
