@@ -12,6 +12,10 @@
 
 <header>
   <div class="logo">⚽ Bolão das IAs <span>Copa do Mundo 2026</span></div>
+  <div class="sync-status" title="Sincronização automática via ESPN">
+    <span class="sync-dot" id="sync-dot"></span>
+    <span class="sync-label" id="sync-label">Conectando...</span>
+  </div>
   <nav>
     <button class="nav-btn active" data-view="ranking"  onclick="showView('ranking')">🏆 Ranking</button>
     <button class="nav-btn"        data-view="import"   onclick="showView('import')">📥 Palpites</button>
@@ -229,29 +233,21 @@
   </div>
 
   <div class="settings-section">
-    <h3>🤖 Busca Automática de Resultados</h3>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
-      Conecte a API <strong>football-data.org</strong> para atualizar os placares automaticamente após cada jogo.
-    </p>
-
-    <div style="background:var(--surface2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;line-height:1.7">
-      <strong>Como configurar:</strong><br>
-      1. Acesse <strong>football-data.org</strong> e crie uma conta gratuita<br>
-      2. Na sua conta, copie a <strong>API Token</strong> da seção "Account"<br>
-      3. Cole abaixo e clique em <strong>Buscar Resultados</strong> sempre que quiser atualizar<br>
-      <span style="color:var(--text-muted)">Plano gratuito: 10 req/min · Copa do Mundo incluída ✓</span>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">API Token (football-data.org)</label>
-      <div style="display:flex;gap:8px">
-        <input type="password" class="form-input" id="api-key" placeholder="Cole sua API token aqui" oninput="saveApiKey(this.value)">
-        <button class="btn-secondary" onclick="toggleApiKey()" style="white-space:nowrap;flex-shrink:0">👁 Ver</button>
+    <h3>🤄 Sincronização Automática</h3>
+    <div style="background:var(--surface2);border-radius:10px;padding:14px;font-size:13px;line-height:1.8">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span id="sync-dot-settings" class="sync-dot ok"></span>
+        <strong>Ativa — via API ESPN</strong>
       </div>
-      <div class="form-hint">A chave fica salva localmente no seu navegador.</div>
+      Os resultados são buscados automaticamente pela API pública da ESPN, sem necessidade de cadastro ou configuração.<br>
+      <span style="color:var(--text-muted)">
+        • Durante horário de jogos (13h–00h BRT): atualiza a cada <strong>90 segundos</strong><br>
+        • Fora do horário: atualiza a cada <strong>5 minutos</strong><br>
+        • Também atualiza ao abrir a página
+      </span>
     </div>
-    <div class="btn-row">
-      <button class="btn-primary" onclick="fetchResults()">🔄 Buscar Resultados</button>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn-secondary" onclick="fetchESPN(false)">🔄 Forçar Atualização Agora</button>
     </div>
   </div>
 

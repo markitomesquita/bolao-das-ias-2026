@@ -658,6 +658,48 @@ main { max-width: 1200px; margin: 0 auto; padding: 24px; }
 
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
 
+/* Sync status indicator */
+.sync-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.sync-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.sync-dot.ok       { background: #22C55E; }
+.sync-dot.error    { background: #EF4444; }
+.sync-dot.fetching {
+  background: #F59E0B;
+  animation: pulse-dot 0.8s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+.sync-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .sync-label { display: none; }
+  .sync-status { margin-right: 8px; }
+}
+
 /* Toast */
 .toast {
   position: fixed;

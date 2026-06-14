@@ -4,6 +4,132 @@
 
 const STORAGE_KEY = "bolao_ias_2026";
 
+// ---- Auto-update ESPN ----
+const ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
+const WC_START  = "20260611";
+const WC_END    = "20260720";
+
+// Polling: 90s durante horário de jogos (13h-24h BRT = 16h-03h UTC), 5min fora
+const POLL_ACTIVE_MS = 90  * 1000;
+const POLL_IDLE_MS   = 5 * 60 * 1000;
+
+let _pollTimer   = null;
+let _lastUpdated = null;
+let _fetching    = false;
+
+function isMatchWindow() {
+  const h = new Date().getUTCHours(); // BRT = UTC-3
+  return h >= 16 || h <= 3;          // 13h–00h BRT
+}
+
+function scheduleNextPoll() {
+  clearTimeout(_pollTimer);
+  _pollTimer = setTimeout(async () => {
+    await fetchESPN(true);
+    scheduleNextPoll();
+  }, isMatchWindow() ? POLL_ACTIVE_MS : POLL_IDLE_MS);
+}
+
+async function fetchESPN(silent = false) {
+  if (_fetching) return;
+  _fetching = true;
+  setStatusFetching(true);
+
+  try {
+    const url = `${ESPN_BASE}?dates=${WC_START}-${WC_END}&limit=200`;
+    const res  = await fetch(url);
+    if (!res.ok) throw new Error(`ESPN API ${res.status}`);
+    const data = await res.json();
+
+    let updated = 0;
+    const events = data.events || [];
+
+    for (const event of events) {
+      const comp    = event.competitions?.[0];
+      if (!comp) continue;
+
+      // Só processar jogos já finalizados
+      const status  = comp.status?.type?.completed;
+      if (!status) continue;
+
+      const home = comp.competitors?.find(c => c.homeAway === "home");
+      const away = comp.competitors?.find(c => c.homeAway === "away");
+      if (!home || !away) continue;
+
+      const gh = parseInt(home.score);
+      const ga = parseInt(away.score);
+      if (isNaN(gh) || isNaN(ga)) continue;
+
+      const homePt = toPortuguese(home.team.displayName || home.team.name);
+      const awayPt = toPortuguese(away.team.displayName || away.team.name);
+
+      const allMatches = [...state.matches, ...state.knockoutMatches];
+      const match = allMatches.find(m =>
+        (normalize(m.home) === normalize(homePt) && normalize(m.away) === normalize(awayPt)) ||
+        (normalize(m.home) === normalize(awayPt)  && normalize(m.away) === normalize(homePt))
+      );
+
+      if (!match) continue;
+
+      const isReversed = normalize(match.home) === normalize(awayPt);
+      const newResult  = isReversed
+        ? { home: ga, away: gh }
+        : { home: gh, away: ga };
+
+      // Só atualiza se resultado mudou (evita re-renders desnecessários)
+      if (!match.result ||
+          match.result.home !== newResult.home ||
+          match.result.away !== newResult.away) {
+        match.result = newResult;
+        updated++;
+      }
+    }
+
+    if (updated > 0) {
+      saveState();
+      renderAll();
+      if (!silent) toast(`✅ ${updated} resultado(s) atualizado(s)!`);
+    }
+
+    _lastUpdated = new Date();
+    setStatusOk();
+
+  } catch (e) {
+    setStatusError(e.message);
+    if (!silent) toast(`Erro ESPN: ${e.message}`, "error");
+  } finally {
+    _fetching = false;
+  }
+}
+
+// ---- Status indicator ----
+function setStatusFetching(on) {
+  const dot  = document.getElementById("sync-dot");
+  const lbl  = document.getElementById("sync-label");
+  if (!dot || !lbl) return;
+  if (on) {
+    dot.className  = "sync-dot fetching";
+    lbl.textContent = "Atualizando...";
+  }
+}
+
+function setStatusOk() {
+  const dot = document.getElementById("sync-dot");
+  const lbl = document.getElementById("sync-label");
+  if (!dot || !lbl) return;
+  dot.className   = "sync-dot ok";
+  lbl.textContent = `Atualizado às ${_lastUpdated.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
+}
+
+function setStatusError(msg) {
+  const dot = document.getElementById("sync-dot");
+  const lbl = document.getElementById("sync-label");
+  if (!dot || !lbl) return;
+  dot.className   = "sync-dot error";
+  lbl.textContent = "Erro ao sincronizar";
+  console.warn("ESPN sync error:", msg);
+}
+
 // ---- State ----
 let state = {
   groups: JSON.parse(JSON.stringify(DEFAULT_GROUPS)),
@@ -541,77 +667,84 @@ function resetData() {
 // ---- Mapeamento inglês → português (football-data.org) ----
 const EN_TO_PT = {
   // Grupo A
-  "South Africa":             "África do Sul",
-  "Korea Republic":           "Coreia do Sul",
-  "Republic of Korea":        "Coreia do Sul",
-  "Czech Republic":           "Rep. Tcheca",
-  "Czechia":                  "Rep. Tcheca",
-  "Mexico":                   "México",
+  "South Africa":                  "África do Sul",
+  "Korea Republic":                "Coreia do Sul",
+  "Republic of Korea":             "Coreia do Sul",
+  "South Korea":                   "Coreia do Sul",
+  "Czech Republic":                "Rep. Tcheca",
+  "Czechia":                       "Rep. Tcheca",
+  "Mexico":                        "México",
   // Grupo B
-  "Canada":                   "Canadá",
-  "Qatar":                    "Catar",
-  "Switzerland":              "Suíça",
-  "Bosnia and Herzegovina":   "Bósnia e Herzegovina",
-  "Bosnia & Herzegovina":     "Bósnia e Herzegovina",
+  "Canada":                        "Canadá",
+  "Qatar":                         "Catar",
+  "Switzerland":                   "Suíça",
+  "Bosnia and Herzegovina":        "Bósnia e Herzegovina",
+  "Bosnia & Herzegovina":          "Bósnia e Herzegovina",
+  "Bosnia-Herzegovina":            "Bósnia e Herzegovina",
   // Grupo C
-  "Brazil":                   "Brasil",
-  "Morocco":                  "Marrocos",
-  "Scotland":                 "Escócia",
-  "Haiti":                    "Haiti",
+  "Brazil":                        "Brasil",
+  "Morocco":                       "Marrocos",
+  "Scotland":                      "Escócia",
+  "Haiti":                         "Haiti",
   // Grupo D
-  "USA":                      "EUA",
-  "United States":            "EUA",
-  "Paraguay":                 "Paraguai",
-  "Australia":                "Austrália",
-  "Turkey":                   "Turquia",
-  "Türkiye":                  "Turquia",
+  "USA":                           "EUA",
+  "United States":                 "EUA",
+  "United States of America":      "EUA",
+  "Paraguay":                      "Paraguai",
+  "Australia":                     "Austrália",
+  "Turkey":                        "Turquia",
+  "Türkiye":                       "Turquia",
   // Grupo E
-  "Germany":                  "Alemanha",
-  "Ecuador":                  "Equador",
-  "Ivory Coast":              "Costa do Marfim",
-  "Côte d'Ivoire":            "Costa do Marfim",
-  "Cote d'Ivoire":            "Costa do Marfim",
-  "Curacao":                  "Curaçao",
-  "Curaçao":                  "Curaçao",
+  "Germany":                       "Alemanha",
+  "Ecuador":                       "Equador",
+  "Ivory Coast":                   "Costa do Marfim",
+  "Côte d'Ivoire":                 "Costa do Marfim",
+  "Cote d'Ivoire":                 "Costa do Marfim",
+  "Curacao":                       "Curaçao",
+  "Curaçao":                       "Curaçao",
   // Grupo F
-  "Netherlands":              "Países Baixos",
-  "Japan":                    "Japão",
-  "Tunisia":                  "Tunísia",
-  "Sweden":                   "Suécia",
+  "Netherlands":                   "Países Baixos",
+  "Holland":                       "Países Baixos",
+  "Japan":                         "Japão",
+  "Tunisia":                       "Tunísia",
+  "Sweden":                        "Suécia",
   // Grupo G
-  "Belgium":                  "Bélgica",
-  "Iran":                     "Irã",
-  "IR Iran":                  "Irã",
-  "Egypt":                    "Egito",
-  "New Zealand":              "Nova Zelândia",
+  "Belgium":                       "Bélgica",
+  "Iran":                          "Irã",
+  "IR Iran":                       "Irã",
+  "Islamic Republic of Iran":      "Irã",
+  "Egypt":                         "Egito",
+  "New Zealand":                   "Nova Zelândia",
   // Grupo H
-  "Spain":                    "Espanha",
-  "Uruguay":                  "Uruguai",
-  "Saudi Arabia":             "Arábia Saudita",
-  "Cape Verde":               "Cabo Verde",
-  "Cabo Verde":               "Cabo Verde",
+  "Spain":                         "Espanha",
+  "Uruguay":                       "Uruguai",
+  "Saudi Arabia":                  "Arábia Saudita",
+  "Cape Verde":                    "Cabo Verde",
+  "Cabo Verde":                    "Cabo Verde",
   // Grupo I
-  "France":                   "França",
-  "Senegal":                  "Senegal",
-  "Norway":                   "Noruega",
-  "Iraq":                     "Iraque",
+  "France":                        "França",
+  "Senegal":                       "Senegal",
+  "Norway":                        "Noruega",
+  "Iraq":                          "Iraque",
   // Grupo J
-  "Argentina":                "Argentina",
-  "Austria":                  "Áustria",
-  "Algeria":                  "Argélia",
-  "Jordan":                   "Jordânia",
+  "Argentina":                     "Argentina",
+  "Austria":                       "Áustria",
+  "Algeria":                       "Argélia",
+  "Jordan":                        "Jordânia",
   // Grupo K
-  "Portugal":                 "Portugal",
-  "Colombia":                 "Colômbia",
-  "Uzbekistan":               "Uzbequistão",
-  "DR Congo":                 "Rep. Dem. do Congo",
-  "Congo DR":                 "Rep. Dem. do Congo",
-  "Democratic Republic of Congo": "Rep. Dem. do Congo",
+  "Portugal":                      "Portugal",
+  "Colombia":                      "Colômbia",
+  "Uzbekistan":                    "Uzbequistão",
+  "DR Congo":                      "Rep. Dem. do Congo",
+  "Congo DR":                      "Rep. Dem. do Congo",
+  "Congo, DR":                     "Rep. Dem. do Congo",
+  "Democratic Republic of Congo":  "Rep. Dem. do Congo",
+  "Democratic Republic of the Congo": "Rep. Dem. do Congo",
   // Grupo L
-  "England":                  "Inglaterra",
-  "Croatia":                  "Croácia",
-  "Ghana":                    "Gana",
-  "Panama":                   "Panamá"
+  "England":                       "Inglaterra",
+  "Croatia":                       "Croácia",
+  "Ghana":                         "Gana",
+  "Panama":                        "Panamá"
 };
 
 function toPortuguese(englishName) {
@@ -744,4 +877,7 @@ function toast(msg, type = "success") {
 document.addEventListener("DOMContentLoaded", () => {
   loadState();
   renderRanking();
+  // Inicia auto-update imediatamente e agenda próximas chamadas
+  fetchESPN(true);
+  scheduleNextPoll();
 });
