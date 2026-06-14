@@ -3,9 +3,10 @@
 // =============================================
 
 const STORAGE_KEY  = "bolao_ias_2026";
-const JSONBIN_ID   = "6a2eca44da38895dfebf3453";
-const JSONBIN_READ = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID + "/latest";
-const JSONBIN_WRITE= "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
+const JSONBIN_ID        = "6a2eca44da38895dfebf3453";
+const JSONBIN_READ      = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID + "/latest";
+const JSONBIN_WRITE     = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
+const JSONBIN_READ_KEY  = "$2a$10$l5majOY6zob71wzTpdopYeovHE9HERaid1h3bqMe44YWr4/tYFckK";
 const JSONBIN_KEY_STORAGE = "bolao_jsonbin_key";
 const ESPN_BASE    = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
 const WC_START     = "20260611";
@@ -50,9 +51,9 @@ async function saveToCloud() {
 
 async function loadFromCloud() {
   try {
-    const headers = {};
-    const key = localStorage.getItem(JSONBIN_KEY_STORAGE);
-    if (key) headers["X-Master-Key"] = key;
+    const masterKey = localStorage.getItem(JSONBIN_KEY_STORAGE);
+    const headers = { "X-Access-Key": JSONBIN_READ_KEY };
+    if (masterKey) headers["X-Master-Key"] = masterKey;
     const res  = await fetch(JSONBIN_READ, { headers });
     if (!res.ok) return false;
     const data = await res.json();
