@@ -256,7 +256,22 @@
     .medal { font-size: 16px; }
 
     /* ---- LAST RESULTS ---- */
-    .results-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 48px; }
+    .results-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .load-more-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 48px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .load-more-btn:hover { background: var(--s2); color: var(--text); }
 
     .result-card {
       background: var(--surface);
@@ -401,6 +416,7 @@
   <div class="results-list" id="results-list">
     <div class="empty">Nenhum resultado ainda. A bola vai rolar em breve.</div>
   </div>
+  <button class="load-more-btn" id="load-more-btn" style="display:none"></button>
 
   <!-- COMO FUNCIONA -->
   <div class="section-label">❓ Como Funciona</div>
@@ -506,15 +522,19 @@ function render() {
     </tr>`;
   }).join("");
 
-  // Últimos resultados
-  const recent = recentResults(8);
-  const list   = document.getElementById("results-list");
-  if (!recent.length) {
+  // Resultados com paginação
+  const allResults = recentResults(Infinity);
+  const list = document.getElementById("results-list");
+  const moreBtn = document.getElementById("load-more-btn");
+
+  if (!allResults.length) {
     list.innerHTML = `<div class="empty">Nenhum resultado ainda. A bola vai rolar em breve.</div>`;
+    if (moreBtn) moreBtn.style.display = "none";
     return;
   }
+
   const mult = m => getMultiplier(m.phase);
-  list.innerHTML = recent.map(m => {
+  function renderResultCard(m) {
     const chips = AI_NAMES.map(ai => {
       const pred = m.predictions[ai];
       if (!pred) return `<div class="pred-chip none"><img src="${ai}.png">${AI_LABELS[ai]}: ?</div>`;
@@ -524,8 +544,7 @@ function render() {
       return `<div class="pred-chip ${cls}"><img src="${ai}.png">${AI_LABELS[ai]}: ${pred.home}×${pred.away} <strong>+${pts}pts</strong></div>`;
     }).join("");
     const phase = PHASES.find(p=>p.id===m.phase)?.label || "";
-    return `
-    <div class="result-card">
+    return `<div class="result-card">
       <div class="result-header">
         <div class="result-teams">
           <span>${teamLabel(m.home)}</span>
@@ -537,7 +556,28 @@ function render() {
       </div>
       <div class="result-preds">${chips}</div>
     </div>`;
-  }).join("");
+  }
+
+  const PAGE = 8;
+  let shown = PAGE;
+
+  function renderResultsList() {
+    list.innerHTML = allResults.slice(0, shown).map(renderResultCard).join("");
+    if (moreBtn) {
+      const remaining = allResults.length - shown;
+      if (remaining > 0) {
+        moreBtn.style.display = "block";
+        moreBtn.textContent = `Ver mais ${Math.min(remaining, PAGE)} jogos (${remaining} restantes)`;
+      } else {
+        moreBtn.style.display = "none";
+      }
+    }
+  }
+
+  if (moreBtn) {
+    moreBtn.onclick = () => { shown += PAGE; renderResultsList(); };
+  }
+  renderResultsList();
 }
 
 // ---- Sync UI ----
