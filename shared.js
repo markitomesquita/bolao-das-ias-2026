@@ -118,10 +118,14 @@ function completedGames() {
   return [...state.matches, ...state.knockoutMatches].filter(m => m.result).length;
 }
 
-function recentResults(n = 5) {
+function recentResults(n = 8) {
   return [...state.matches, ...state.knockoutMatches]
     .filter(m => m.result)
-    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+    .sort((a, b) => {
+      const dateDiff = (b.date || "").localeCompare(a.date || "");
+      if (dateDiff !== 0) return dateDiff;
+      return (b.id || "").localeCompare(a.id || "", undefined, { numeric: true });
+    })
     .slice(0, n);
 }
 
