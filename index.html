@@ -97,6 +97,98 @@
     /* ---- MAIN ---- */
     main { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; }
 
+    /* ---- CORRIDA ---- */
+    .race-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px 24px 24px;
+      margin-bottom: 48px;
+      overflow: hidden;
+    }
+    .race-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: 20px;
+    }
+    .race-track {
+      position: relative;
+      height: 110px;
+      background: linear-gradient(180deg, #f0ede8 0%, #e8e4dd 100%);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: visible;
+    }
+    .race-lane-line {
+      position: absolute;
+      bottom: 28px;
+      left: 0; right: 0;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, #c8c3bb 0px, #c8c3bb 12px, transparent 12px, transparent 24px);
+      opacity: 0.6;
+    }
+    .race-finish {
+      position: absolute;
+      left: 8%;
+      top: 0; bottom: 0;
+      width: 3px;
+      background: repeating-linear-gradient(180deg, #1C1917 0px, #1C1917 8px, #fff 8px, #fff 16px);
+      opacity: 0.4;
+    }
+    .race-finish-label {
+      position: absolute;
+      left: 4px;
+      top: 6px;
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      opacity: 0.5;
+    }
+    .horse-slot {
+      position: absolute;
+      bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: left 1s cubic-bezier(.34,1.56,.64,1);
+      transform: translateX(-50%);
+    }
+    .horse-slot img {
+      width: 44px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
+    }
+    .horse-name {
+      font-size: 9px;
+      font-weight: 700;
+      margin-top: 3px;
+      white-space: nowrap;
+      padding: 2px 6px;
+      border-radius: 8px;
+      color: #fff;
+    }
+    .horse-badge {
+      font-size: 9px;
+      font-weight: 800;
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1px 5px;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
     /* ---- RANKING CARDS ---- */
     .section-label {
       font-size: 11px;
@@ -394,6 +486,16 @@
 
 <main>
 
+  <!-- CORRIDA -->
+  <div class="race-wrap">
+    <div class="race-title">🐎 A Corrida</div>
+    <div class="race-track" id="race-track">
+      <div class="race-finish"></div>
+      <div class="race-finish-label">META</div>
+      <div class="race-lane-line"></div>
+    </div>
+  </div>
+
   <!-- RANKING -->
   <div class="section-label">🏆 Classificação</div>
   <div class="ranking-grid" id="ranking-grid"></div>
@@ -472,6 +574,41 @@ function render() {
   const sorted = [...AI_NAMES].sort((a,b) => scores[b].total - scores[a].total);
   const total  = completedGames();
   const totalGamesCount = state.matches.length + state.knockoutMatches.length;
+
+  // Corrida dos cavalinhos
+  const AI_COLORS = { claude: '#D97706', chatgpt: '#059669', gemini: '#2563EB', deepseek: '#7C3AED', grok: '#111827' };
+  const track = document.getElementById("race-track");
+  if (track) {
+    const maxPts  = Math.max(...sorted.map(ai => scores[ai].total), 1);
+    const minPts  = Math.min(...sorted.map(ai => scores[ai].total));
+    const range   = Math.max(maxPts - minPts, 1);
+    const n = sorted.length;
+    const LEFT_MIN = 10, LEFT_MAX = 88, MIN_GAP = 4;
+    // Remove cavalinhos anteriores, mantém elementos de fundo
+    track.querySelectorAll(".horse-slot").forEach(el => el.remove());
+    // Calcula posições brutas baseadas em pontos
+    const rawPos = sorted.map(ai => {
+      const pts = scores[ai].total;
+      return LEFT_MIN + ((maxPts - pts) / range) * (LEFT_MAX - LEFT_MIN);
+    });
+    // Garante separação mínima da esquerda pra direita
+    const finalPos = [...rawPos];
+    for (let i = 1; i < n; i++) {
+      if (finalPos[i] < finalPos[i-1] + MIN_GAP) finalPos[i] = finalPos[i-1] + MIN_GAP;
+    }
+    sorted.forEach((ai, i) => {
+      const pct = finalPos[i];
+      const slot = document.createElement("div");
+      slot.className = "horse-slot";
+      slot.style.left = pct + "%";
+      slot.innerHTML = `
+        <div class="horse-badge">${MEDALS[i]} ${["1º","2º","3º","4º","5º"][i]}</div>
+        <img src="cavalinho_${ai}.png" alt="${AI_LABELS[ai]}">
+        <div class="horse-name" style="background:${AI_COLORS[ai]}">${AI_LABELS[ai]}</div>
+      `;
+      track.appendChild(slot);
+    });
+  }
 
   // Cards
   const grid = document.getElementById("ranking-grid");
