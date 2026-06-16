@@ -15,12 +15,13 @@ const DEFAULT_GROUPS = {
 };
 
 const PHASES = [
-  { id: "groups", label: "Fase de Grupos",   multiplier: 1 },
-  { id: "r32",    label: "Oitavas de Final",  multiplier: 2 },
-  { id: "qf",     label: "Quartas de Final",  multiplier: 3 },
-  { id: "sf",     label: "Semifinal",         multiplier: 4 },
-  { id: "third",  label: "3º Lugar",          multiplier: 4 },
-  { id: "final",  label: "Final",             multiplier: 5 }
+  { id: "groups", label: "Fase de Grupos",      multiplier: 1 },
+  { id: "r32",    label: "16 avos de Final",     multiplier: 2 },
+  { id: "r16",    label: "Oitavas de Final",     multiplier: 3 },
+  { id: "qf",     label: "Quartas de Final",     multiplier: 4 },
+  { id: "sf",     label: "Semifinal",            multiplier: 5 },
+  { id: "third",  label: "3º Lugar",             multiplier: 5 },
+  { id: "final",  label: "Final",                multiplier: 6 }
 ];
 
 const AI_NAMES   = ["claude", "chatgpt", "gemini", "deepseek", "grok"];
