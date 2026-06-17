@@ -68,15 +68,24 @@ async function loadFromCloud() {
 }
 
 // ---- Scoring ----
+// 5pts: placar exato | 3pts: resultado certo | 2pts: diferença de gols certa | 1pt: gols do perdedor certos
 function calcPoints(prediction, result, multiplier) {
   if (!prediction || !result) return null;
   const ph = parseInt(prediction.home), pa = parseInt(prediction.away);
   const rh = parseInt(result.home),     ra = parseInt(result.away);
   if (isNaN(ph)||isNaN(pa)||isNaN(rh)||isNaN(ra)) return null;
-  if (ph === rh && pa === ra) return 3 * multiplier;
+
+  if (ph === rh && pa === ra) return 5 * multiplier;
+
   const pO = ph > pa ? "H" : ph < pa ? "A" : "D";
   const rO = rh > ra ? "H" : rh < ra ? "A" : "D";
-  return pO === rO ? 1 * multiplier : 0;
+  if (pO === rO) return 3 * multiplier;
+
+  if (Math.abs(ph - pa) === Math.abs(rh - ra)) return 2 * multiplier;
+
+  if (rO !== "D" && Math.min(ph, pa) === Math.min(rh, ra)) return 1 * multiplier;
+
+  return 0;
 }
 
 function getMultiplier(phase) {
@@ -98,8 +107,8 @@ function calcAllScores() {
       scores[ai].total += pts;
       scores[ai].byPhase[match.phase] = (scores[ai].byPhase[match.phase] || 0) + pts;
       const raw = calcPoints(match.predictions[ai], match.result, 1);
-      if (raw === 3) scores[ai].exact++;
-      else if (raw === 1) scores[ai].correct++;
+      if (raw === 5) scores[ai].exact++;
+      else if (raw >= 1) scores[ai].correct++;
       else scores[ai].wrong++;
     }
   }

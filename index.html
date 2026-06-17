@@ -531,7 +531,7 @@
     <div class="how-item">
       <div class="how-icon">🎯</div>
       <div class="how-title">Pontuação</div>
-      <div class="how-desc"><strong style="color:#22C55E">3 pts</strong> placar exato · <strong style="color:#F59E0B">1 pt</strong> resultado certo · <strong style="color:#EF4444">0</strong> se errou feio.</div>
+      <div class="how-desc"><strong style="color:#22C55E">5 pts</strong> placar exato · <strong style="color:#F59E0B">3 pts</strong> resultado certo · <strong style="color:#3B82F6">2 pts</strong> diferença de gols · <strong style="color:#A78BFA">1 pt</strong> gols do perdedor · <strong style="color:#EF4444">0</strong> errou feio.</div>
     </div>
     <div class="how-item">
       <div class="how-icon">⚡</div>
@@ -677,7 +677,7 @@ function render() {
       if (!pred) return `<div class="pred-chip none"><img src="${ai}.png">${AI_LABELS[ai]}: ?</div>`;
       const pts = calcPoints(pred, m.result, mult(m));
       const rawPts = calcPoints(pred, m.result, 1);
-      const cls = rawPts === 3 ? "exact" : rawPts === 1 ? "certo" : "erro";
+      const cls = rawPts === 5 ? "exact" : rawPts >= 1 ? "certo" : "erro";
       return `<div class="pred-chip ${cls}"><img src="${ai}.png">${AI_LABELS[ai]}: ${pred.home}×${pred.away} <strong>+${pts}pts</strong></div>`;
     }).join("");
     const phase = PHASES.find(p=>p.id===m.phase)?.label || "";

@@ -179,7 +179,7 @@ function renderResultCard(match, deletable = false) {
     </div>`;
     const pts    = match.result ? calcPoints(pred, match.result, mult) : null;
     const rawPts = match.result ? calcPoints(pred, match.result, 1)    : null;
-    const cls    = rawPts === 3 ? "pts-exact" : rawPts === 1 ? "pts-correct" : rawPts === 0 ? "pts-wrong" : "";
+    const cls    = rawPts === 5 ? "pts-exact" : rawPts >= 1 ? "pts-correct" : rawPts === 0 ? "pts-wrong" : "";
     return `<div class="prediction-row">
       <span class="pred-ai-name"><span class="pred-logo"><img src="${ai}.png" class="ai-logo-img"></span>${AI_LABELS[ai]}</span>
       <div class="score-inputs">
