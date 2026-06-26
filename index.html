@@ -677,7 +677,13 @@ function render() {
       if (!pred) return `<div class="pred-chip none"><img src="${ai}.png">${AI_LABELS[ai]}: ?</div>`;
       const pts = calcPoints(pred, m.result, mult(m));
       const rawPts = calcPoints(pred, m.result, 1);
-      const cls = rawPts === 5 ? "exact" : rawPts >= 1 ? "certo" : "erro";
+      const outcomeMatch = rawPts !== null && (() => {
+        const ph = pred.home, pa = pred.away, rh = m.result.home, ra = m.result.away;
+        const pO = ph > pa ? "H" : ph < pa ? "A" : "D";
+        const rO = rh > ra ? "H" : rh < ra ? "A" : "D";
+        return pO === rO;
+      })();
+      const cls = rawPts === 5 ? "exact" : outcomeMatch ? "certo" : "erro";
       return `<div class="pred-chip ${cls}"><img src="${ai}.png">${AI_LABELS[ai]}: ${pred.home}×${pred.away} <strong>+${pts}pts</strong></div>`;
     }).join("");
     const phase = PHASES.find(p=>p.id===m.phase)?.label || "";
