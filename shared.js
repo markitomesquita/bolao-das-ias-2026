@@ -25,12 +25,21 @@ let state = {
   knockoutMatches: []
 };
 
+function backfillDates() {
+  for (const m of state.matches) {
+    if (!m.date && m.home && m.away) {
+      m.date = getMatchDate(m.home, m.away) || "";
+    }
+  }
+}
+
 function loadState() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) state = { ...state, ...JSON.parse(saved) };
     else       state.matches = generateGroupMatches(state.groups);
   } catch { state.matches = generateGroupMatches(state.groups); }
+  backfillDates();
 }
 
 function saveState() {
@@ -60,6 +69,7 @@ async function loadFromCloud() {
     const cloud = data.record;
     if (cloud && cloud.groups && Object.keys(cloud.groups).length > 0) {
       state = { ...state, ...cloud };
+      backfillDates();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       return true;
     }
