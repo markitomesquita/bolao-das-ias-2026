@@ -39,7 +39,9 @@ function loadState() {
     if (saved) state = { ...state, ...JSON.parse(saved) };
     else       state.matches = generateGroupMatches(state.groups);
   } catch { state.matches = generateGroupMatches(state.groups); }
+  const missing = state.matches.filter(m => !m.date).length;
   backfillDates();
+  if (missing > 0) localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
 function saveState() {
