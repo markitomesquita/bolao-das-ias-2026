@@ -226,10 +226,10 @@ async function fetchESPN(silent = false) {
 
       const rev = normalize(match.home) === normalize(awayPt);
       const nr  = rev ? { home: ga, away: gh } : { home: gh, away: ga };
-      if (!match.result || match.result.home !== nr.home || match.result.away !== nr.away) {
-        match.result = nr;
-        updated++;
-      }
+      const eventDate = (event.date || "").substring(0, 10);
+      const changed = !match.result || match.result.home !== nr.home || match.result.away !== nr.away;
+      if (changed) { match.result = nr; updated++; }
+      if (eventDate && match.date !== eventDate) { match.date = eventDate; if (!changed) updated++; }
     }
 
     if (updated > 0) { saveState(); onResultsUpdated?.(); }
