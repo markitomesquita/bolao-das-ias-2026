@@ -315,8 +315,10 @@ function showAdmin() {
   initAdmin();
 }
 
-function initAdmin() {
+async function initAdmin() {
   loadState();
+  renderImport();
+  await loadFromCloud();
   renderImport();
   startAutoSync();
 }
@@ -339,6 +341,10 @@ onSyncError = (msg) => {
   const lbl = document.getElementById("sync-label");
   if (dot) dot.className = "sync-dot error";
   if (lbl) lbl.textContent = "Erro ESPN";
+};
+onKnockoutAdded = () => {
+  renderImport();
+  toast("Novos jogos de mata-mata importados da ESPN! Gere o prompt para palpitar. ⚽");
 };
 onResultsUpdated = () => {
   if (document.getElementById("view-results").classList.contains("active")) renderResults();
