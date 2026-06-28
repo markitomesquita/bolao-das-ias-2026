@@ -24,12 +24,20 @@ function generatePrompt() {
     .filter(({ matches }) => matches.length > 0);
 
   const hasKnockout = knockoutTodo.length > 0;
-  const hasGroups   = groupMatches.length > 0;
 
   let matchList = "";
   let totalGamesInPrompt = 0;
 
-  if (hasGroups) {
+  if (hasKnockout) {
+    for (const { phase, matches } of knockoutTodo) {
+      matchList += `\n${phase.label.toUpperCase()}:\n`;
+      matches.forEach((m, i) => {
+        matchList += `  Jogo ${i + 1}: ${m.home} x ${m.away}\n`;
+        totalGamesInPrompt++;
+      });
+    }
+  } else {
+    // Fallback: fase de grupos (só usada antes do mata-mata começar)
     const groups = [...new Set(groupMatches.map(m => m.group))].sort();
     for (const g of groups) {
       matchList += `\nGRUPO ${g}:\n`;
@@ -40,19 +48,9 @@ function generatePrompt() {
     }
   }
 
-  if (hasKnockout) {
-    for (const { phase, matches } of knockoutTodo) {
-      matchList += `\n${phase.label.toUpperCase()}:\n`;
-      matches.forEach((m, i) => {
-        matchList += `  Jogo ${i + 1}: ${m.home} x ${m.away}\n`;
-        totalGamesInPrompt++;
-      });
-    }
-  }
-
-  const phaseDesc = hasKnockout && !hasGroups
+  const phaseDesc = hasKnockout
     ? knockoutTodo.map(({ phase }) => phase.label).join(" e ")
-    : hasKnockout ? "Fase de Grupos e Mata-Mata" : "fase de grupos";
+    : "fase de grupos";
 
   const cutoffNote = hasKnockout
     ? `REGRA IMPORTANTE: Use apenas seu conhecimento sobre os times classificados. Você pode e deve considerar os resultados da fase de grupos para fazer seus palpites no mata-mata.`
