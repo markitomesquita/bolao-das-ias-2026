@@ -23,44 +23,27 @@ function generatePrompt() {
     .map(p => ({ phase: p, matches: state.knockoutMatches.filter(m => m.phase === p.id) }))
     .filter(({ matches }) => matches.length > 0);
 
-  const hasKnockout = knockoutTodo.length > 0;
+  if (knockoutTodo.length === 0) {
+    return "Nenhum jogo de mata-mata encontrado. Aguarde a sincronização com a ESPN ou clique em 'Forçar Atualização'.";
+  }
 
   let matchList = "";
   let totalGamesInPrompt = 0;
-
-  if (hasKnockout) {
-    for (const { phase, matches } of knockoutTodo) {
-      matchList += `\n${phase.label.toUpperCase()}:\n`;
-      matches.forEach((m, i) => {
-        matchList += `  Jogo ${i + 1}: ${m.home} x ${m.away}\n`;
-        totalGamesInPrompt++;
-      });
-    }
-  } else {
-    // Fallback: fase de grupos (só usada antes do mata-mata começar)
-    const groups = [...new Set(groupMatches.map(m => m.group))].sort();
-    for (const g of groups) {
-      matchList += `\nGRUPO ${g}:\n`;
-      groupMatches.filter(m => m.group === g).forEach((m, i) => {
-        matchList += `  Jogo ${i + 1}: ${m.home} x ${m.away}\n`;
-        totalGamesInPrompt++;
-      });
-    }
+  for (const { phase, matches } of knockoutTodo) {
+    matchList += `\n${phase.label.toUpperCase()}:\n`;
+    matches.forEach((m, i) => {
+      matchList += `  Jogo ${i + 1}: ${m.home} x ${m.away}\n`;
+      totalGamesInPrompt++;
+    });
   }
 
-  const phaseDesc = hasKnockout
-    ? knockoutTodo.map(({ phase }) => phase.label).join(" e ")
-    : "fase de grupos";
-
-  const cutoffNote = hasKnockout
-    ? `REGRA IMPORTANTE: Use apenas seu conhecimento sobre os times classificados. Você pode e deve considerar os resultados da fase de grupos para fazer seus palpites no mata-mata.`
-    : `REGRA IMPORTANTE: Use apenas seu conhecimento até 10 de junho de 2026 (dia anterior ao início da Copa). Não considere nenhum resultado real de jogo que já tenha acontecido. Seus palpites devem ser baseados APENAS em análise prévia dos times.`;
+  const phaseDesc = knockoutTodo.map(({ phase }) => phase.label).join(" e ");
 
   return `Você é um analista esportivo fazendo palpites para um bolão da Copa do Mundo FIFA 2026.
 
-${cutoffNote}
+REGRA IMPORTANTE: A fase de grupos já terminou. Use os resultados reais da fase de grupos para embasar seus palpites no mata-mata.
 
-Sua tarefa: prever o placar de TODOS os jogos da ${phaseDesc} listados abaixo.
+Sua tarefa: prever o placar de TODOS os jogos do ${phaseDesc} listados abaixo.
 
 FORMATO DE RESPOSTA OBRIGATÓRIO — um jogo por linha, exatamente assim:
 [Time Mandante] [gols] x [gols] [Time Visitante]
