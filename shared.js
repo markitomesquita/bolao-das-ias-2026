@@ -199,6 +199,16 @@ function matchInState(homePt, awayPt) {
   );
 }
 
+// ---- Knockout phase detection by date ----
+function knockoutPhaseFromDate(dateStr) {
+  if (dateStr <= "2026-07-04") return "r32";
+  if (dateStr <= "2026-07-08") return "r16";
+  if (dateStr <= "2026-07-13") return "qf";
+  if (dateStr <= "2026-07-17") return "sf";
+  if (dateStr <= "2026-07-18") return "third";
+  return "final";
+}
+
 // ---- ESPN fetch ----
 async function fetchESPN(silent = false) {
   if (_fetching) return;
@@ -212,24 +222,55 @@ async function fetchESPN(silent = false) {
 
     for (const event of (data.events || [])) {
       const comp = event.competitions?.[0];
-      if (!comp?.status?.type?.completed) continue;
+      if (!comp) continue;
       const home = comp.competitors?.find(c => c.homeAway === "home");
       const away = comp.competitors?.find(c => c.homeAway === "away");
       if (!home || !away) continue;
-      const gh = parseInt(home.score), ga = parseInt(away.score);
-      if (isNaN(gh) || isNaN(ga)) continue;
 
-      const homePt = toPortuguese(home.team.displayName || home.team.name);
-      const awayPt = toPortuguese(away.team.displayName || away.team.name);
-      const match  = matchInState(homePt, awayPt);
+      const homeRaw = home.team.displayName || home.team.name;
+      const awayRaw = away.team.displayName || away.team.name;
+
+      // Skip placeholder entries like "Round of 32 1 Winner"
+      if (/winner|loser/i.test(homeRaw) || /winner|loser/i.test(awayRaw)) continue;
+
+      const homePt = toPortuguese(homeRaw);
+      const awayPt = toPortuguese(awayRaw);
+      const eventDate = (event.date || "").substring(0, 10);
+
+      // Try to find in existing state (group or knockout)
+      let match = matchInState(homePt, awayPt);
+
+      // If not found and it's a knockout date, auto-add it
+      if (!match && eventDate >= "2026-06-27") {
+        const phase = knockoutPhaseFromDate(eventDate);
+        const newMatch = {
+          id: `ESPN_${event.id}`,
+          phase,
+          home: homePt,
+          away: awayPt,
+          date: eventDate,
+          result: null,
+          predictions: { claude: null, chatgpt: null, gemini: null, deepseek: null, grok: null }
+        };
+        state.knockoutMatches.push(newMatch);
+        match = newMatch;
+        updated++;
+        onKnockoutAdded?.();
+      }
+
       if (!match) continue;
 
-      const rev = normalize(match.home) === normalize(awayPt);
-      const nr  = rev ? { home: ga, away: gh } : { home: gh, away: ga };
-      const eventDate = (event.date || "").substring(0, 10);
-      const changed = !match.result || match.result.home !== nr.home || match.result.away !== nr.away;
-      if (changed) { match.result = nr; updated++; }
-      if (eventDate && match.date !== eventDate) { match.date = eventDate; if (!changed) updated++; }
+      // Update result if completed
+      if (comp.status?.type?.completed) {
+        const gh = parseInt(home.score), ga = parseInt(away.score);
+        if (!isNaN(gh) && !isNaN(ga)) {
+          const rev = normalize(match.home) === normalize(awayPt);
+          const nr  = rev ? { home: ga, away: gh } : { home: gh, away: ga };
+          const changed = !match.result || match.result.home !== nr.home || match.result.away !== nr.away;
+          if (changed) { match.result = nr; updated++; }
+          if (eventDate && match.date !== eventDate) { match.date = eventDate; if (!changed) updated++; }
+        }
+      }
     }
 
     if (updated > 0) { saveState(); onResultsUpdated?.(); }
@@ -241,6 +282,8 @@ async function fetchESPN(silent = false) {
     _fetching = false;
   }
 }
+
+let onKnockoutAdded = null;
 
 function isMatchWindow() {
   const h = new Date().getUTCHours();
