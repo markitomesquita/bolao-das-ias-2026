@@ -3,10 +3,10 @@
 // =============================================
 
 const STORAGE_KEY  = "bolao_ias_2026";
-const JSONBIN_ID        = "6a2eca44da38895dfebf3453";
+const JSONBIN_ID        = "6a431aecf5f4af5e2944d237";
 const JSONBIN_READ      = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID + "/latest";
 const JSONBIN_WRITE     = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
-const JSONBIN_READ_KEY  = "$2a$10$l5majOY6zob71wzTpdopYeovHE9HERaid1h3bqMe44YWr4/tYFckK";
+const JSONBIN_READ_KEY  = "$2a$10$38n2M2Kx8d50MIvUseb/m.8aYuC7T8K/.TApWVDna.ocsGhqp4xNu";
 const JSONBIN_KEY_STORAGE = "bolao_jsonbin_key";
 const ESPN_BASE    = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
 const WC_START     = "20260611";
