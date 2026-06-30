@@ -101,7 +101,10 @@ function parseDocument(text, ai) {
       : { home: parseInt(gh), away: parseInt(ga) };
     imported++;
   }
-  saveState();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  saveToCloud()
+    .then(() => toast("Palpites salvos na nuvem ☁️"))
+    .catch(e => toast(`Salvo localmente, mas falhou na nuvem: ${e.message}`, "error"));
   renderImport();
   return { imported, skipped };
 }

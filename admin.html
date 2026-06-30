@@ -315,10 +315,8 @@ function showAdmin() {
   initAdmin();
 }
 
-async function initAdmin() {
+function initAdmin() {
   loadState();
-  renderImport();
-  await loadFromCloud();
   renderImport();
   startAutoSync();
 }

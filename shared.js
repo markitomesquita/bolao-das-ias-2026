@@ -53,11 +53,12 @@ function saveState() {
 async function saveToCloud() {
   const key = localStorage.getItem(JSONBIN_KEY_STORAGE);
   if (!key) return;
-  await fetch(JSONBIN_WRITE, {
+  const res = await fetch(JSONBIN_WRITE, {
     method: "PUT",
     headers: { "Content-Type": "application/json", "X-Master-Key": key },
     body: JSON.stringify(state)
   });
+  if (!res.ok) throw new Error(`JSONBin ${res.status}`);
 }
 
 async function loadFromCloud() {
