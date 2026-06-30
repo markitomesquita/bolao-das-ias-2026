@@ -319,6 +319,10 @@ function initAdmin() {
   loadState();
   renderImport();
   startAutoSync();
+  // Empurra estado atual para nuvem ao abrir o admin (garante que outros dispositivos vejam dados atualizados)
+  saveToCloud()
+    .then(() => console.log("Cloud sync OK"))
+    .catch(e => console.warn("Cloud sync falhou:", e.message));
 }
 
 // Hooks do shared.js para atualizar UI
