@@ -363,14 +363,30 @@ function saveJsonBinKey() {
 
 async function syncToCloud() {
   const status = document.getElementById("jsonbin-status");
+  const key = localStorage.getItem(JSONBIN_KEY_STORAGE);
+  if (!key) {
+    status.textContent = "✗ Chave mestra não encontrada. Cole a chave abaixo e salve.";
+    toast("Chave mestra não configurada", "error");
+    return;
+  }
   status.textContent = "Publicando...";
   try {
-    await saveToCloud();
+    const res = await fetch(JSONBIN_WRITE, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "X-Master-Key": key },
+      body: JSON.stringify(state)
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      status.textContent = `✗ Erro ${res.status}: ${body.substring(0, 100)}`;
+      toast(`Erro ${res.status} ao publicar`, "error");
+      return;
+    }
     status.textContent = "✓ Dados publicados com sucesso às " + new Date().toLocaleTimeString("pt-BR");
     toast("Dados publicados na cloud! ☁️");
   } catch (e) {
-    status.textContent = "✗ Erro ao publicar. Verifique a chave.";
-    toast("Erro ao publicar na cloud", "error");
+    status.textContent = `✗ Erro de rede: ${e.message}`;
+    toast("Erro de rede ao publicar", "error");
   }
 }
 
