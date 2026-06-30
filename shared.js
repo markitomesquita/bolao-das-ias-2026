@@ -64,8 +64,7 @@ async function saveToCloud() {
 async function loadFromCloud() {
   try {
     const masterKey = localStorage.getItem(JSONBIN_KEY_STORAGE);
-    const headers = { "X-Access-Key": JSONBIN_READ_KEY };
-    if (masterKey) headers["X-Master-Key"] = masterKey;
+    const headers = { "X-Master-Key": masterKey || JSONBIN_READ_KEY };
     const res  = await fetch(JSONBIN_READ, { headers });
     if (!res.ok) return false;
     const data = await res.json();
