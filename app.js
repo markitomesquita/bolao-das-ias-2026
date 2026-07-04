@@ -84,9 +84,10 @@ function parseDocument(text, ai) {
   const skippedLines = [];
 
   for (const rawLine of text.split("\n")) {
-    const line = rawLine.trim();
+    let line = rawLine.trim();
     if (!line || line.toUpperCase().includes("FIM DOS PALPITES")) continue;
-    if (/^(GRUPO|Jogo|\/\/)/.test(line)) continue;
+    if (/^(GRUPO|\/\/)/.test(line)) continue;
+    line = line.replace(/^jogo\s+\d+\s*:\s*/i, ""); // remove prefixo "Jogo N:"
     const m = line.match(scoreRe);
     if (!m) continue;
     const [, homeRaw, gh, ga, awayRaw] = m;
