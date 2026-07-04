@@ -221,6 +221,10 @@ function knockoutPhaseFromDate(dateStr) {
 }
 
 // Corrige fases que ultrapassaram o limite máximo (move overflow para a próxima fase)
+// Usa ID ESPN para desempate: ID maior = evento mais recente = deve ir para a próxima fase
+function espnEventId(match) {
+  return parseInt((match.id || "").replace("ESPN_", "")) || 0;
+}
 function fixKnockoutPhases() {
   let fixed = false;
   for (const phase of PHASE_ORDER) {
@@ -228,7 +232,8 @@ function fixKnockoutPhases() {
     if (!max) continue;
     const matches = state.knockoutMatches.filter(m => m.phase === phase);
     if (matches.length > max) {
-      matches.sort((a, b) => (b.date || "").localeCompare(a.date || "")); // mais recentes primeiro
+      // Ordena por ID ESPN decrescente — IDs maiores pertencem às fases seguintes
+      matches.sort((a, b) => espnEventId(b) - espnEventId(a));
       const overflow = matches.slice(0, matches.length - max);
       const nextPhase = PHASE_ORDER[PHASE_ORDER.indexOf(phase) + 1];
       if (nextPhase) { overflow.forEach(m => { m.phase = nextPhase; fixed = true; }); }
