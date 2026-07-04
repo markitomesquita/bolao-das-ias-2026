@@ -199,14 +199,42 @@ function matchInState(homePt, awayPt) {
   );
 }
 
-// ---- Knockout phase detection by date ----
+// ---- Knockout phase detection by date + max count ----
+const PHASE_MAX   = { r32: 16, r16: 8, qf: 4, sf: 2, third: 1, final: 1 };
+const PHASE_ORDER = ["r32", "r16", "qf", "sf", "third", "final"];
+
 function knockoutPhaseFromDate(dateStr) {
-  if (dateStr <= "2026-07-04") return "r32";
-  if (dateStr <= "2026-07-08") return "r16";
-  if (dateStr <= "2026-07-13") return "qf";
-  if (dateStr <= "2026-07-17") return "sf";
-  if (dateStr <= "2026-07-18") return "third";
-  return "final";
+  let phase;
+  if (dateStr <= "2026-07-04") phase = "r32";
+  else if (dateStr <= "2026-07-08") phase = "r16";
+  else if (dateStr <= "2026-07-13") phase = "qf";
+  else if (dateStr <= "2026-07-17") phase = "sf";
+  else if (dateStr <= "2026-07-18") phase = "third";
+  else phase = "final";
+  // Se a fase já atingiu o máximo, sobe para a próxima
+  while (PHASE_MAX[phase] && state.knockoutMatches.filter(m => m.phase === phase).length >= PHASE_MAX[phase]) {
+    const next = PHASE_ORDER[PHASE_ORDER.indexOf(phase) + 1];
+    if (!next) break;
+    phase = next;
+  }
+  return phase;
+}
+
+// Corrige fases que ultrapassaram o limite máximo (move overflow para a próxima fase)
+function fixKnockoutPhases() {
+  let fixed = false;
+  for (const phase of PHASE_ORDER) {
+    const max = PHASE_MAX[phase];
+    if (!max) continue;
+    const matches = state.knockoutMatches.filter(m => m.phase === phase);
+    if (matches.length > max) {
+      matches.sort((a, b) => (b.date || "").localeCompare(a.date || "")); // mais recentes primeiro
+      const overflow = matches.slice(0, matches.length - max);
+      const nextPhase = PHASE_ORDER[PHASE_ORDER.indexOf(phase) + 1];
+      if (nextPhase) { overflow.forEach(m => { m.phase = nextPhase; fixed = true; }); }
+    }
+  }
+  return fixed;
 }
 
 // ---- ESPN fetch ----
@@ -273,7 +301,8 @@ async function fetchESPN(silent = false) {
       }
     }
 
-    if (updated > 0) { saveState(); onResultsUpdated?.(); }
+    const phaseFixed = fixKnockoutPhases();
+    if (updated > 0 || phaseFixed) { saveState(); onResultsUpdated?.(); }
     _lastUpdate = new Date();
     onSyncOk?.(_lastUpdate);
   } catch (e) {
