@@ -81,6 +81,7 @@ function copyPrompt() {
 function parseDocument(text, ai) {
   const scoreRe = /^(.+?)\s+(\d+)\s*[x×\-:]\s*(\d+)\s+(.+?)[\s.]*$/i;
   let imported = 0, skipped = 0;
+  const skippedLines = [];
 
   for (const rawLine of text.split("\n")) {
     const line = rawLine.trim();
@@ -93,7 +94,7 @@ function parseDocument(text, ai) {
       fuzzyMatch(m.home, homeRaw.trim(), m.away, awayRaw.trim()) ||
       fuzzyMatch(m.home, awayRaw.trim(), m.away, homeRaw.trim())
     );
-    if (!match) { skipped++; continue; }
+    if (!match) { skipped++; skippedLines.push(`"${homeRaw.trim()} x ${awayRaw.trim()}"`); continue; }
     const rev = fuzzyMatch(match.away, homeRaw.trim(), match.home, awayRaw.trim()) &&
                 !fuzzyMatch(match.home, homeRaw.trim(), match.away, awayRaw.trim());
     match.predictions[ai] = rev
@@ -106,7 +107,7 @@ function parseDocument(text, ai) {
     .then(() => toast("Palpites salvos na nuvem ☁️"))
     .catch(e => toast(`Salvo localmente, mas falhou na nuvem: ${e.message}`, "error"));
   renderImport();
-  return { imported, skipped };
+  return { imported, skipped, skippedLines };
 }
 
 function fuzzyMatch(mHome, rawHome, mAway, rawAway) {
@@ -121,7 +122,13 @@ function handleImport(ai) {
   if (!text) { toast("Cole o documento antes de importar", "error"); return; }
   const { imported, skipped } = parseDocument(text, ai);
   if (!imported) toast("Nenhum palpite reconhecido. Verifique o formato.", "error");
-  else { toast(`${AI_LABELS[ai]}: ${imported} palpites importados!${skipped ? ` (${skipped} não mapeados)` : ""}`); ta.value = ""; }
+  else {
+    toast(`${AI_LABELS[ai]}: ${imported} palpites importados!${skipped ? ` (${skipped} não mapeados)` : ""}`);
+    if (skippedLines.length) {
+      setTimeout(() => toast(`Não mapeados: ${skippedLines.join(", ")}`, "error"), 4000);
+    }
+    ta.value = "";
+  }
 }
 
 function handleFileImport(ai, input) {
