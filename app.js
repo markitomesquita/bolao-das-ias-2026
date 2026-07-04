@@ -21,7 +21,7 @@ function generatePrompt() {
 
   const knockoutTodo = knockoutPhases
     .map(p => ({ phase: p, matches: state.knockoutMatches.filter(m => m.phase === p.id) }))
-    .filter(({ matches }) => matches.length > 0);
+    .filter(({ matches }) => matches.length > 0 && matches.some(m => !m.result));
 
   if (knockoutTodo.length === 0) {
     return "Nenhum jogo de mata-mata encontrado. Aguarde a sincronização com a ESPN ou clique em 'Forçar Atualização'.";
