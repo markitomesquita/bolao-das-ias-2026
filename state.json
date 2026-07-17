@@ -3469,7 +3469,10 @@
           "home": 1,
           "away": 2
         },
-        "grok": null
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
       }
     },
     {
@@ -3493,7 +3496,10 @@
           "home": 1,
           "away": 2
         },
-        "grok": null
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
       }
     },
     {
