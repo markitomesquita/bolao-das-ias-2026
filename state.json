@@ -3471,7 +3471,10 @@
           "home": 2,
           "away": 1
         },
-        "deepseek": null,
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
         "grok": {
           "home": 2,
           "away": 1
@@ -3501,7 +3504,10 @@
           "home": 1,
           "away": 2
         },
-        "deepseek": null,
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
         "grok": {
           "home": 1,
           "away": 2
