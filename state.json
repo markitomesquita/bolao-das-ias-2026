@@ -3463,7 +3463,10 @@
           "home": 2,
           "away": 1
         },
-        "chatgpt": null,
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
         "gemini": null,
         "deepseek": null,
         "grok": null
@@ -3484,7 +3487,10 @@
           "home": 1,
           "away": 2
         },
-        "chatgpt": null,
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
         "gemini": null,
         "deepseek": null,
         "grok": null
