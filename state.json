@@ -3460,7 +3460,10 @@
       },
       "predictions": {
         "claude": null,
-        "chatgpt": null,
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
         "gemini": null,
         "deepseek": null,
         "grok": null
@@ -3478,7 +3481,10 @@
       },
       "predictions": {
         "claude": null,
-        "chatgpt": null,
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
         "gemini": null,
         "deepseek": null,
         "grok": null
