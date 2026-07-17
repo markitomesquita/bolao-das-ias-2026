@@ -3522,7 +3522,10 @@
       "date": "2026-07-18",
       "result": null,
       "predictions": {
-        "claude": null,
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
         "chatgpt": {
           "home": 2,
           "away": 1
@@ -3540,7 +3543,10 @@
       "date": "2026-07-19",
       "result": null,
       "predictions": {
-        "claude": null,
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
         "chatgpt": {
           "home": 1,
           "away": 2
