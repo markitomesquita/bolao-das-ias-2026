@@ -73,10 +73,15 @@ async function saveToCloud() {
 
 async function loadFromCloud() {
   try {
-    // raw.githubusercontent.com é público e sem limite de rate
-    const res = await fetch(GITHUB_RAW + "?t=" + Date.now());
+    // Usa a API do GitHub (sem cache) em vez de raw.githubusercontent.com (cache de minutos)
+    const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+    const headers = { "Accept": "application/vnd.github.v3+json" };
+    if (token) headers["Authorization"] = "token " + token;
+    const res = await fetch(GITHUB_API, { headers });
     if (!res.ok) return false;
-    const cloud = await res.json();
+    const file = await res.json();
+    if (!file.content) return false;
+    const cloud = JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/\n/g, "")))));
     if (cloud && cloud.groups && Object.keys(cloud.groups).length > 0) {
       state = { ...state, ...cloud };
       backfillDates();
