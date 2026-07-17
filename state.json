@@ -3530,7 +3530,10 @@
           "home": 2,
           "away": 1
         },
-        "gemini": null,
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
         "deepseek": {
           "home": 2,
           "away": 1
@@ -3557,7 +3560,10 @@
           "home": 1,
           "away": 2
         },
-        "gemini": null,
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
         "deepseek": {
           "home": 1,
           "away": 2
