@@ -3459,26 +3459,11 @@
         "away": 2
       },
       "predictions": {
-        "claude": {
-          "home": 2,
-          "away": 1
-        },
-        "chatgpt": {
-          "home": 2,
-          "away": 1
-        },
-        "gemini": {
-          "home": 2,
-          "away": 1
-        },
-        "deepseek": {
-          "home": 1,
-          "away": 2
-        },
-        "grok": {
-          "home": 2,
-          "away": 1
-        }
+        "claude": null,
+        "chatgpt": null,
+        "gemini": null,
+        "deepseek": null,
+        "grok": null
       }
     },
     {
@@ -3492,26 +3477,11 @@
         "away": 2
       },
       "predictions": {
-        "claude": {
-          "home": 1,
-          "away": 2
-        },
-        "chatgpt": {
-          "home": 1,
-          "away": 2
-        },
-        "gemini": {
-          "home": 1,
-          "away": 2
-        },
-        "deepseek": {
-          "home": 1,
-          "away": 2
-        },
-        "grok": {
-          "home": 1,
-          "away": 2
-        }
+        "claude": null,
+        "chatgpt": null,
+        "gemini": null,
+        "deepseek": null,
+        "grok": null
       }
     },
     {
