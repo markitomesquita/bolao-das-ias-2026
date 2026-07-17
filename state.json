@@ -3459,7 +3459,10 @@
         "away": 2
       },
       "predictions": {
-        "claude": null,
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
         "chatgpt": {
           "home": 2,
           "away": 1
@@ -3489,7 +3492,10 @@
         "away": 2
       },
       "predictions": {
-        "claude": null,
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
         "chatgpt": {
           "home": 1,
           "away": 2
