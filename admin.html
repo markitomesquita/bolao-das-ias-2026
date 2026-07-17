@@ -199,16 +199,16 @@
   </div>
 
   <div class="settings-section">
-    <h3>☁️ Sincronização Cloud (JSONBin)</h3>
+    <h3>☁️ Sincronização Cloud (GitHub)</h3>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
-      A chave fica salva só neste navegador. Necessária para publicar os dados em todos os dispositivos.
+      Token do GitHub com permissão <strong>repo</strong>. Fica salvo só neste navegador.
     </p>
     <div class="form-group">
-      <label class="form-label">Master Key do JSONBin</label>
-      <input type="password" class="form-input" id="jsonbin-key-input" placeholder="$2a$10$...">
+      <label class="form-label">GitHub Personal Access Token</label>
+      <input type="password" class="form-input" id="github-token-input" placeholder="ghp_...">
     </div>
     <div class="btn-row">
-      <button class="btn-secondary" onclick="saveJsonBinKey()">💾 Salvar Chave</button>
+      <button class="btn-secondary" onclick="saveGithubToken()">💾 Salvar Token</button>
       <button class="btn-secondary" onclick="syncToCloud()">☁️ Publicar Dados Agora</button>
       <button class="btn-secondary" onclick="reloadFromCloud()">⬇️ Recarregar da Nuvem</button>
     </div>
@@ -353,13 +353,14 @@ onResultsUpdated = () => {
   if (document.getElementById("view-results").classList.contains("active")) renderResults();
 };
 
-// ---- JSONBin ----
-function saveJsonBinKey() {
-  const key = document.getElementById("jsonbin-key-input").value.trim();
-  if (!key) { toast("Cole a chave antes de salvar", "error"); return; }
-  localStorage.setItem(JSONBIN_KEY_STORAGE, key);
-  document.getElementById("jsonbin-key-input").value = "";
-  toast("Chave salva! Os dados serão publicados automaticamente a cada salvamento.");
+// ---- GitHub Cloud ----
+function saveGithubToken() {
+  const token = document.getElementById("github-token-input").value.trim();
+  if (!token) { toast("Cole o token antes de salvar", "error"); return; }
+  localStorage.setItem(GITHUB_TOKEN_KEY, token);
+  document.getElementById("github-token-input").value = "";
+  initJsonBinUI();
+  toast("Token salvo! Os dados serão publicados automaticamente a cada salvamento.");
 }
 
 async function reloadFromCloud() {
@@ -368,7 +369,7 @@ async function reloadFromCloud() {
   const ok = await loadFromCloud();
   if (ok) {
     renderImport();
-    renderResults();
+    if (document.getElementById("view-results")?.classList.contains("active")) renderResults();
     status.textContent = "✓ Dados recarregados da nuvem às " + new Date().toLocaleTimeString("pt-BR");
     toast("Dados recarregados da nuvem! ⬇️");
   } else {
@@ -379,37 +380,27 @@ async function reloadFromCloud() {
 
 async function syncToCloud() {
   const status = document.getElementById("jsonbin-status");
-  const key = localStorage.getItem(JSONBIN_KEY_STORAGE);
-  if (!key) {
-    status.textContent = "✗ Chave mestra não encontrada. Cole a chave abaixo e salve.";
-    toast("Chave mestra não configurada", "error");
+  const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+  if (!token) {
+    status.textContent = "✗ Token do GitHub não configurado.";
+    toast("Token do GitHub não configurado", "error");
     return;
   }
   status.textContent = "Publicando...";
   try {
-    const res = await fetch(JSONBIN_WRITE, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", "X-Master-Key": key },
-      body: JSON.stringify(state)
-    });
-    if (!res.ok) {
-      const body = await res.text();
-      status.textContent = `✗ Erro ${res.status}: ${body.substring(0, 100)}`;
-      toast(`Erro ${res.status} ao publicar`, "error");
-      return;
-    }
+    await saveToCloud();
     status.textContent = "✓ Dados publicados com sucesso às " + new Date().toLocaleTimeString("pt-BR");
-    toast("Dados publicados na cloud! ☁️");
+    toast("Dados publicados no GitHub! ☁️");
   } catch (e) {
-    status.textContent = `✗ Erro de rede: ${e.message}`;
-    toast("Erro de rede ao publicar", "error");
+    status.textContent = `✗ Erro: ${e.message}`;
+    toast(`Erro ao publicar: ${e.message}`, "error");
   }
 }
 
 function initJsonBinUI() {
-  const hasKey = !!localStorage.getItem(JSONBIN_KEY_STORAGE);
+  const hasToken = !!localStorage.getItem(GITHUB_TOKEN_KEY);
   const status = document.getElementById("jsonbin-status");
-  if (status) status.textContent = hasKey ? "✓ Chave configurada. Dados sincronizados automaticamente." : "⚠️ Chave não configurada.";
+  if (status) status.textContent = hasToken ? "✓ Token configurado. Dados sincronizados automaticamente." : "⚠️ Token não configurado.";
 }
 
 // ---- Init: verificar sessão ----

@@ -3,11 +3,12 @@
 // =============================================
 
 const STORAGE_KEY  = "bolao_ias_2026";
-const JSONBIN_ID        = "6a431aecf5f4af5e2944d237";
-const JSONBIN_READ      = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID + "/latest";
-const JSONBIN_WRITE     = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
-const JSONBIN_READ_KEY  = "$2a$10$38n2M2Kx8d50MIvUseb/m.8aYuC7T8K/.TApWVDna.ocsGhqp4xNu";
-const JSONBIN_KEY_STORAGE = "bolao_jsonbin_key";
+const GITHUB_OWNER = "markitomesquita";
+const GITHUB_REPO  = "bolao-das-ias-2026";
+const GITHUB_FILE  = "state.json";
+const GITHUB_API   = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
+const GITHUB_RAW   = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${GITHUB_FILE}`;
+const GITHUB_TOKEN_KEY = "bolao_github_token";
 const ESPN_BASE    = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
 const WC_START     = "20260611";
 const WC_END       = "20260720";
@@ -49,26 +50,33 @@ function saveState() {
   saveToCloud().catch(() => {});
 }
 
-// ---- Cloud sync (JSONBin) ----
+// ---- Cloud sync (GitHub) ----
 async function saveToCloud() {
-  const key = localStorage.getItem(JSONBIN_KEY_STORAGE);
-  if (!key) return;
-  const res = await fetch(JSONBIN_WRITE, {
+  const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+  if (!token) return;
+  // Busca SHA atual do arquivo (necessário para atualizar)
+  let sha;
+  try {
+    const r = await fetch(GITHUB_API, { headers: { "Authorization": "token " + token } });
+    if (r.ok) { const f = await r.json(); sha = f.sha; }
+  } catch {}
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+  const body = { message: "Update bolão state", content };
+  if (sha) body.sha = sha;
+  const res = await fetch(GITHUB_API, {
     method: "PUT",
-    headers: { "Content-Type": "application/json", "X-Master-Key": key },
-    body: JSON.stringify(state)
+    headers: { "Authorization": "token " + token, "Content-Type": "application/json" },
+    body: JSON.stringify(body)
   });
-  if (!res.ok) throw new Error(`JSONBin ${res.status}`);
+  if (!res.ok) throw new Error(`GitHub ${res.status}`);
 }
 
 async function loadFromCloud() {
   try {
-    const masterKey = localStorage.getItem(JSONBIN_KEY_STORAGE);
-    const headers = { "X-Master-Key": masterKey || JSONBIN_READ_KEY };
-    const res  = await fetch(JSONBIN_READ, { headers });
+    // raw.githubusercontent.com é público e sem limite de rate
+    const res = await fetch(GITHUB_RAW + "?t=" + Date.now());
     if (!res.ok) return false;
-    const data = await res.json();
-    const cloud = data.record;
+    const cloud = await res.json();
     if (cloud && cloud.groups && Object.keys(cloud.groups).length > 0) {
       state = { ...state, ...cloud };
       backfillDates();

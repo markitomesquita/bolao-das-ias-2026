@@ -1,0 +1,3440 @@
+{
+  "groups": {
+    "A": [
+      "África do Sul",
+      "Coreia do Sul",
+      "Rep. Tcheca",
+      "México"
+    ],
+    "B": [
+      "Canadá",
+      "Catar",
+      "Suíça",
+      "Bósnia e Herzegovina"
+    ],
+    "C": [
+      "Brasil",
+      "Marrocos",
+      "Escócia",
+      "Haiti"
+    ],
+    "D": [
+      "EUA",
+      "Paraguai",
+      "Austrália",
+      "Turquia"
+    ],
+    "E": [
+      "Alemanha",
+      "Equador",
+      "Costa do Marfim",
+      "Curaçao"
+    ],
+    "F": [
+      "Países Baixos",
+      "Japão",
+      "Tunísia",
+      "Suécia"
+    ],
+    "G": [
+      "Bélgica",
+      "Irã",
+      "Egito",
+      "Nova Zelândia"
+    ],
+    "H": [
+      "Espanha",
+      "Uruguai",
+      "Arábia Saudita",
+      "Cabo Verde"
+    ],
+    "I": [
+      "França",
+      "Senegal",
+      "Noruega",
+      "Iraque"
+    ],
+    "J": [
+      "Argentina",
+      "Áustria",
+      "Argélia",
+      "Jordânia"
+    ],
+    "K": [
+      "Portugal",
+      "Colômbia",
+      "Uzbequistão",
+      "Rep. Dem. do Congo"
+    ],
+    "L": [
+      "Inglaterra",
+      "Croácia",
+      "Gana",
+      "Panamá"
+    ]
+  },
+  "matches": [
+    {
+      "id": "G1",
+      "phase": "groups",
+      "group": "A",
+      "home": "África do Sul",
+      "away": "Coreia do Sul",
+      "date": "2026-06-25",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G2",
+      "phase": "groups",
+      "group": "A",
+      "home": "África do Sul",
+      "away": "Rep. Tcheca",
+      "date": "2026-06-18",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 0,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 0,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
+        "grok": {
+          "home": 0,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "G3",
+      "phase": "groups",
+      "group": "A",
+      "home": "África do Sul",
+      "away": "México",
+      "date": "2026-06-11",
+      "result": {
+        "home": 0,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 0,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "G4",
+      "phase": "groups",
+      "group": "A",
+      "home": "Coreia do Sul",
+      "away": "Rep. Tcheca",
+      "date": "2026-06-12",
+      "result": {
+        "home": 2,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G5",
+      "phase": "groups",
+      "group": "A",
+      "home": "Coreia do Sul",
+      "away": "México",
+      "date": "2026-06-19",
+      "result": {
+        "home": 0,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "G6",
+      "phase": "groups",
+      "group": "A",
+      "home": "Rep. Tcheca",
+      "away": "México",
+      "date": "2026-06-25",
+      "result": {
+        "home": 0,
+        "away": 3
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G7",
+      "phase": "groups",
+      "group": "B",
+      "home": "Canadá",
+      "away": "Catar",
+      "date": "2026-06-18",
+      "result": {
+        "home": 6,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G8",
+      "phase": "groups",
+      "group": "B",
+      "home": "Canadá",
+      "away": "Suíça",
+      "date": "2026-06-24",
+      "result": {
+        "home": 1,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G9",
+      "phase": "groups",
+      "group": "B",
+      "home": "Canadá",
+      "away": "Bósnia e Herzegovina",
+      "date": "2026-06-12",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G10",
+      "phase": "groups",
+      "group": "B",
+      "home": "Catar",
+      "away": "Suíça",
+      "date": "2026-06-13",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 0,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 0,
+          "away": 2
+        },
+        "gemini": {
+          "home": 0,
+          "away": 3
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 3
+        },
+        "grok": {
+          "home": 0,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "G11",
+      "phase": "groups",
+      "group": "B",
+      "home": "Catar",
+      "away": "Bósnia e Herzegovina",
+      "date": "2026-06-24",
+      "result": {
+        "home": 1,
+        "away": 3
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "G12",
+      "phase": "groups",
+      "group": "B",
+      "home": "Suíça",
+      "away": "Bósnia e Herzegovina",
+      "date": "2026-06-18",
+      "result": {
+        "home": 4,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G13",
+      "phase": "groups",
+      "group": "C",
+      "home": "Brasil",
+      "away": "Marrocos",
+      "date": "2026-06-13",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G14",
+      "phase": "groups",
+      "group": "C",
+      "home": "Brasil",
+      "away": "Escócia",
+      "date": "2026-06-24",
+      "result": {
+        "home": 3,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 4,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G15",
+      "phase": "groups",
+      "group": "C",
+      "home": "Brasil",
+      "away": "Haiti",
+      "date": "2026-06-20",
+      "result": {
+        "home": 3,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 4,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 5,
+          "away": 0
+        },
+        "gemini": {
+          "home": 5,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 5,
+          "away": 0
+        },
+        "grok": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G16",
+      "phase": "groups",
+      "group": "C",
+      "home": "Marrocos",
+      "away": "Escócia",
+      "date": "2026-06-19",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G17",
+      "phase": "groups",
+      "group": "C",
+      "home": "Marrocos",
+      "away": "Haiti",
+      "date": "2026-06-24",
+      "result": {
+        "home": 4,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 4,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G18",
+      "phase": "groups",
+      "group": "C",
+      "home": "Escócia",
+      "away": "Haiti",
+      "date": "2026-06-14",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G19",
+      "phase": "groups",
+      "group": "D",
+      "home": "EUA",
+      "away": "Paraguai",
+      "date": "2026-06-13",
+      "result": {
+        "home": 4,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G20",
+      "phase": "groups",
+      "group": "D",
+      "home": "EUA",
+      "away": "Austrália",
+      "date": "2026-06-19",
+      "result": {
+        "home": 2,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G21",
+      "phase": "groups",
+      "group": "D",
+      "home": "EUA",
+      "away": "Turquia",
+      "date": "2026-06-26",
+      "result": {
+        "home": 2,
+        "away": 3
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G22",
+      "phase": "groups",
+      "group": "D",
+      "home": "Paraguai",
+      "away": "Austrália",
+      "date": "2026-06-26",
+      "result": {
+        "home": 0,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G23",
+      "phase": "groups",
+      "group": "D",
+      "home": "Paraguai",
+      "away": "Turquia",
+      "date": "2026-06-20",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G24",
+      "phase": "groups",
+      "group": "D",
+      "home": "Austrália",
+      "away": "Turquia",
+      "date": "2026-06-14",
+      "result": {
+        "home": 2,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "G25",
+      "phase": "groups",
+      "group": "E",
+      "home": "Alemanha",
+      "away": "Equador",
+      "date": "2026-06-25",
+      "result": {
+        "home": 1,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G26",
+      "phase": "groups",
+      "group": "E",
+      "home": "Alemanha",
+      "away": "Costa do Marfim",
+      "date": "2026-06-20",
+      "result": {
+        "home": 2,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G27",
+      "phase": "groups",
+      "group": "E",
+      "home": "Alemanha",
+      "away": "Curaçao",
+      "date": "2026-06-14",
+      "result": {
+        "home": 7,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 5,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 5,
+          "away": 0
+        },
+        "gemini": {
+          "home": 6,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 4,
+          "away": 0
+        },
+        "grok": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G28",
+      "phase": "groups",
+      "group": "E",
+      "home": "Equador",
+      "away": "Costa do Marfim",
+      "date": "2026-06-14",
+      "result": {
+        "home": 0,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G29",
+      "phase": "groups",
+      "group": "E",
+      "home": "Equador",
+      "away": "Curaçao",
+      "date": "2026-06-21",
+      "result": {
+        "home": 0,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G30",
+      "phase": "groups",
+      "group": "E",
+      "home": "Costa do Marfim",
+      "away": "Curaçao",
+      "date": "2026-06-25",
+      "result": {
+        "home": 2,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 4,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G31",
+      "phase": "groups",
+      "group": "F",
+      "home": "Países Baixos",
+      "away": "Japão",
+      "date": "2026-06-14",
+      "result": {
+        "home": 2,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G32",
+      "phase": "groups",
+      "group": "F",
+      "home": "Países Baixos",
+      "away": "Tunísia",
+      "date": "2026-06-25",
+      "result": {
+        "home": 3,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G33",
+      "phase": "groups",
+      "group": "F",
+      "home": "Países Baixos",
+      "away": "Suécia",
+      "date": "2026-06-20",
+      "result": {
+        "home": 5,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 2
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G34",
+      "phase": "groups",
+      "group": "F",
+      "home": "Japão",
+      "away": "Tunísia",
+      "date": "2026-06-21",
+      "result": {
+        "home": 4,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G35",
+      "phase": "groups",
+      "group": "F",
+      "home": "Japão",
+      "away": "Suécia",
+      "date": "2026-06-25",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G36",
+      "phase": "groups",
+      "group": "F",
+      "home": "Tunísia",
+      "away": "Suécia",
+      "date": "2026-06-15",
+      "result": {
+        "home": 1,
+        "away": 5
+      },
+      "predictions": {
+        "claude": {
+          "home": 0,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 0,
+          "away": 1
+        },
+        "gemini": {
+          "home": 0,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G37",
+      "phase": "groups",
+      "group": "G",
+      "home": "Bélgica",
+      "away": "Irã",
+      "date": "2026-06-21",
+      "result": {
+        "home": 0,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G38",
+      "phase": "groups",
+      "group": "G",
+      "home": "Bélgica",
+      "away": "Egito",
+      "date": "2026-06-15",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G39",
+      "phase": "groups",
+      "group": "G",
+      "home": "Bélgica",
+      "away": "Nova Zelândia",
+      "date": "2026-06-27",
+      "result": {
+        "home": 5,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 4,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 4,
+          "away": 0
+        },
+        "gemini": {
+          "home": 4,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 4,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G40",
+      "phase": "groups",
+      "group": "G",
+      "home": "Irã",
+      "away": "Egito",
+      "date": "2026-06-27",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G41",
+      "phase": "groups",
+      "group": "G",
+      "home": "Irã",
+      "away": "Nova Zelândia",
+      "date": "2026-06-16",
+      "result": {
+        "home": 2,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G42",
+      "phase": "groups",
+      "group": "G",
+      "home": "Egito",
+      "away": "Nova Zelândia",
+      "date": "2026-06-22",
+      "result": {
+        "home": 3,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G43",
+      "phase": "groups",
+      "group": "H",
+      "home": "Espanha",
+      "away": "Uruguai",
+      "date": "2026-06-27",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G44",
+      "phase": "groups",
+      "group": "H",
+      "home": "Espanha",
+      "away": "Arábia Saudita",
+      "date": "2026-06-21",
+      "result": {
+        "home": 4,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G45",
+      "phase": "groups",
+      "group": "H",
+      "home": "Espanha",
+      "away": "Cabo Verde",
+      "date": "2026-06-15",
+      "result": {
+        "home": 0,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 4,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 4,
+          "away": 0
+        },
+        "gemini": {
+          "home": 4,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 4,
+          "away": 0
+        },
+        "grok": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G46",
+      "phase": "groups",
+      "group": "H",
+      "home": "Uruguai",
+      "away": "Arábia Saudita",
+      "date": "2026-06-15",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G47",
+      "phase": "groups",
+      "group": "H",
+      "home": "Uruguai",
+      "away": "Cabo Verde",
+      "date": "2026-06-21",
+      "result": {
+        "home": 2,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G48",
+      "phase": "groups",
+      "group": "H",
+      "home": "Arábia Saudita",
+      "away": "Cabo Verde",
+      "date": "2026-06-27",
+      "result": {
+        "home": 0,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 0
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G49",
+      "phase": "groups",
+      "group": "I",
+      "home": "França",
+      "away": "Senegal",
+      "date": "2026-06-16",
+      "result": {
+        "home": 3,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G50",
+      "phase": "groups",
+      "group": "I",
+      "home": "França",
+      "away": "Noruega",
+      "date": "2026-06-26",
+      "result": {
+        "home": 4,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 1
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G51",
+      "phase": "groups",
+      "group": "I",
+      "home": "França",
+      "away": "Iraque",
+      "date": "2026-06-22",
+      "result": {
+        "home": 3,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 4,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 4,
+          "away": 0
+        },
+        "gemini": {
+          "home": 4,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 4,
+          "away": 0
+        },
+        "grok": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G52",
+      "phase": "groups",
+      "group": "I",
+      "home": "Senegal",
+      "away": "Noruega",
+      "date": "2026-06-23",
+      "result": {
+        "home": 2,
+        "away": 3
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G53",
+      "phase": "groups",
+      "group": "I",
+      "home": "Senegal",
+      "away": "Iraque",
+      "date": "2026-06-26",
+      "result": {
+        "home": 5,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G54",
+      "phase": "groups",
+      "group": "I",
+      "home": "Noruega",
+      "away": "Iraque",
+      "date": "2026-06-16",
+      "result": {
+        "home": 4,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G55",
+      "phase": "groups",
+      "group": "J",
+      "home": "Argentina",
+      "away": "Áustria",
+      "date": "2026-06-22",
+      "result": {
+        "home": 2,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G56",
+      "phase": "groups",
+      "group": "J",
+      "home": "Argentina",
+      "away": "Argélia",
+      "date": "2026-06-17",
+      "result": {
+        "home": 3,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 1
+        },
+        "grok": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G57",
+      "phase": "groups",
+      "group": "J",
+      "home": "Argentina",
+      "away": "Jordânia",
+      "date": "2026-06-28",
+      "result": {
+        "home": 3,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 4,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 4,
+          "away": 0
+        },
+        "gemini": {
+          "home": 5,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 4,
+          "away": 0
+        },
+        "grok": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G58",
+      "phase": "groups",
+      "group": "J",
+      "home": "Áustria",
+      "away": "Argélia",
+      "date": "2026-06-28",
+      "result": {
+        "home": 3,
+        "away": 3
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G59",
+      "phase": "groups",
+      "group": "J",
+      "home": "Áustria",
+      "away": "Jordânia",
+      "date": "2026-06-17",
+      "result": {
+        "home": 3,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G60",
+      "phase": "groups",
+      "group": "J",
+      "home": "Argélia",
+      "away": "Jordânia",
+      "date": "2026-06-23",
+      "result": {
+        "home": 2,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G61",
+      "phase": "groups",
+      "group": "K",
+      "home": "Portugal",
+      "away": "Colômbia",
+      "date": "2026-06-27",
+      "result": {
+        "home": 0,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G62",
+      "phase": "groups",
+      "group": "K",
+      "home": "Portugal",
+      "away": "Uzbequistão",
+      "date": "2026-06-23",
+      "result": {
+        "home": 5,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 4,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G63",
+      "phase": "groups",
+      "group": "K",
+      "home": "Portugal",
+      "away": "Rep. Dem. do Congo",
+      "date": "2026-06-17",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 4,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 4,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G64",
+      "phase": "groups",
+      "group": "K",
+      "home": "Colômbia",
+      "away": "Uzbequistão",
+      "date": "2026-06-18",
+      "result": {
+        "home": 3,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G65",
+      "phase": "groups",
+      "group": "K",
+      "home": "Colômbia",
+      "away": "Rep. Dem. do Congo",
+      "date": "2026-06-24",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G66",
+      "phase": "groups",
+      "group": "K",
+      "home": "Uzbequistão",
+      "away": "Rep. Dem. do Congo",
+      "date": "2026-06-27",
+      "result": {
+        "home": 1,
+        "away": 3
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G67",
+      "phase": "groups",
+      "group": "L",
+      "home": "Inglaterra",
+      "away": "Croácia",
+      "date": "2026-06-17",
+      "result": {
+        "home": 4,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G68",
+      "phase": "groups",
+      "group": "L",
+      "home": "Inglaterra",
+      "away": "Gana",
+      "date": "2026-06-23",
+      "result": {
+        "home": 0,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G69",
+      "phase": "groups",
+      "group": "L",
+      "home": "Inglaterra",
+      "away": "Panamá",
+      "date": "2026-06-27",
+      "result": {
+        "home": 2,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 4,
+          "away": 0
+        },
+        "gemini": {
+          "home": 4,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 4,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G70",
+      "phase": "groups",
+      "group": "L",
+      "home": "Croácia",
+      "away": "Gana",
+      "date": "2026-06-27",
+      "result": {
+        "home": 2,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "G71",
+      "phase": "groups",
+      "group": "L",
+      "home": "Croácia",
+      "away": "Panamá",
+      "date": "2026-06-23",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "G72",
+      "phase": "groups",
+      "group": "L",
+      "home": "Gana",
+      "away": "Panamá",
+      "date": "2026-06-17",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    }
+  ],
+  "knockoutMatches": [
+    {
+      "id": "ESPN_760486",
+      "phase": "r32",
+      "home": "África do Sul",
+      "away": "Canadá",
+      "date": "2026-06-28",
+      "result": {
+        "home": 0,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 0,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 0,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "ESPN_760487",
+      "phase": "r32",
+      "home": "Brasil",
+      "away": "Japão",
+      "date": "2026-06-29",
+      "result": {
+        "home": 2,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 1
+        },
+        "grok": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760489",
+      "phase": "r32",
+      "home": "Alemanha",
+      "away": "Paraguai",
+      "date": "2026-06-29",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "ESPN_760488",
+      "phase": "r32",
+      "home": "Países Baixos",
+      "away": "Marrocos",
+      "date": "2026-06-30",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760490",
+      "phase": "r32",
+      "home": "Costa do Marfim",
+      "away": "Noruega",
+      "date": "2026-06-30",
+      "result": {
+        "home": 1,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760492",
+      "phase": "r32",
+      "home": "França",
+      "away": "Suécia",
+      "date": "2026-06-30",
+      "result": {
+        "home": 3,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "ESPN_760491",
+      "phase": "r32",
+      "home": "México",
+      "away": "Equador",
+      "date": "2026-07-01",
+      "result": {
+        "home": 2,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760495",
+      "phase": "r32",
+      "home": "Inglaterra",
+      "away": "Rep. Dem. do Congo",
+      "date": "2026-07-01",
+      "result": {
+        "home": 2,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 4,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "ESPN_760493",
+      "phase": "r32",
+      "home": "Bélgica",
+      "away": "Senegal",
+      "date": "2026-07-01",
+      "result": {
+        "home": 3,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760494",
+      "phase": "r32",
+      "home": "EUA",
+      "away": "Bósnia e Herzegovina",
+      "date": "2026-07-02",
+      "result": {
+        "home": 2,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 0
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760497",
+      "phase": "r32",
+      "home": "Espanha",
+      "away": "Áustria",
+      "date": "2026-07-02",
+      "result": {
+        "home": 3,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "ESPN_760496",
+      "phase": "r32",
+      "home": "Portugal",
+      "away": "Croácia",
+      "date": "2026-07-02",
+      "result": {
+        "home": 2,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760498",
+      "phase": "r32",
+      "home": "Suíça",
+      "away": "Argélia",
+      "date": "2026-07-03",
+      "result": {
+        "home": 2,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 1,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760499",
+      "phase": "r32",
+      "home": "Austrália",
+      "away": "Egito",
+      "date": "2026-07-03",
+      "result": {
+        "home": 1,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 1
+        },
+        "grok": {
+          "home": 0,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "ESPN_760500",
+      "phase": "r32",
+      "home": "Argentina",
+      "away": "Cabo Verde",
+      "date": "2026-07-03",
+      "result": {
+        "home": 3,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 4,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 5,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "ESPN_760501",
+      "phase": "r32",
+      "home": "Colômbia",
+      "away": "Gana",
+      "date": "2026-07-04",
+      "result": {
+        "home": 1,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760504",
+      "phase": "r16",
+      "home": "Brasil",
+      "away": "Noruega",
+      "date": "2026-07-05",
+      "result": {
+        "home": 1,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "ESPN_760505",
+      "phase": "r16",
+      "home": "México",
+      "away": "Inglaterra",
+      "date": "2026-07-06",
+      "result": {
+        "home": 2,
+        "away": 3
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "ESPN_760506",
+      "phase": "r16",
+      "home": "Portugal",
+      "away": "Espanha",
+      "date": "2026-07-06",
+      "result": {
+        "home": 0,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "ESPN_760507",
+      "phase": "r16",
+      "home": "EUA",
+      "away": "Bélgica",
+      "date": "2026-07-07",
+      "result": {
+        "home": 1,
+        "away": 4
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "ESPN_760509",
+      "phase": "r16",
+      "home": "Argentina",
+      "away": "Egito",
+      "date": "2026-07-07",
+      "result": {
+        "home": 3,
+        "away": 2
+      },
+      "predictions": {
+        "claude": {
+          "home": 3,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 3,
+          "away": 0
+        },
+        "gemini": {
+          "home": 3,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 4,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "ESPN_760508",
+      "phase": "r16",
+      "home": "Suíça",
+      "away": "Colômbia",
+      "date": "2026-07-07",
+      "result": {
+        "home": 0,
+        "away": 0
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 1
+        },
+        "grok": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760502",
+      "phase": "r16",
+      "home": "Canadá",
+      "away": "Marrocos",
+      "date": "2026-07-04",
+      "result": {
+        "home": 0,
+        "away": 3
+      },
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 0
+        },
+        "grok": {
+          "home": 0,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "ESPN_760503",
+      "phase": "r16",
+      "home": "Paraguai",
+      "away": "França",
+      "date": "2026-07-04",
+      "result": {
+        "home": 0,
+        "away": 1
+      },
+      "predictions": {
+        "claude": {
+          "home": 0,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 0,
+          "away": 2
+        },
+        "gemini": {
+          "home": 0,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 0,
+          "away": 2
+        },
+        "grok": {
+          "home": 0,
+          "away": 3
+        }
+      }
+    },
+    {
+      "id": "ESPN_760510",
+      "phase": "qf",
+      "home": "França",
+      "away": "Marrocos",
+      "date": "2026-07-09",
+      "result": null,
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 0
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 0
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760511",
+      "phase": "qf",
+      "home": "Espanha",
+      "away": "Bélgica",
+      "date": "2026-07-10",
+      "result": null,
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 1
+        },
+        "deepseek": {
+          "home": 2,
+          "away": 1
+        },
+        "grok": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "ESPN_760512",
+      "phase": "qf",
+      "home": "Noruega",
+      "away": "Inglaterra",
+      "date": "2026-07-11",
+      "result": null,
+      "predictions": {
+        "claude": {
+          "home": 1,
+          "away": 2
+        },
+        "chatgpt": {
+          "home": 1,
+          "away": 2
+        },
+        "gemini": {
+          "home": 1,
+          "away": 2
+        },
+        "deepseek": {
+          "home": 1,
+          "away": 2
+        },
+        "grok": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "ESPN_760513",
+      "phase": "qf",
+      "home": "Argentina",
+      "away": "Suíça",
+      "date": "2026-07-12",
+      "result": null,
+      "predictions": {
+        "claude": {
+          "home": 2,
+          "away": 1
+        },
+        "chatgpt": {
+          "home": 2,
+          "away": 1
+        },
+        "gemini": {
+          "home": 2,
+          "away": 0
+        },
+        "deepseek": {
+          "home": 3,
+          "away": 0
+        },
+        "grok": {
+          "home": 3,
+          "away": 0
+        }
+      }
+    }
+  ]
+}
