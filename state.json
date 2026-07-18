@@ -3520,7 +3520,10 @@
       "home": "França",
       "away": "Inglaterra",
       "date": "2026-07-18",
-      "result": null,
+      "result": {
+        "home": 4,
+        "away": 6
+      },
       "predictions": {
         "claude": {
           "home": 2,
