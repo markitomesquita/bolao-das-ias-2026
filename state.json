@@ -3553,7 +3553,10 @@
       "home": "Espanha",
       "away": "Argentina",
       "date": "2026-07-19",
-      "result": null,
+      "result": {
+        "home": 1,
+        "away": 0
+      },
       "predictions": {
         "claude": {
           "home": 1,
